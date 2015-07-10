@@ -1,3 +1,8 @@
+### v1.0.8 [view commit logs](https://github.com/soomla/soomla-unity3d-core/compare/v1.0.7...v1.0.8)
+
+* New Features
+  * WP8 Integration
+
 ### v1.0.7 [view commit logs](https://github.com/soomla/soomla-unity3d-core/compare/v1.0.6...v1.0.7)
 
 * Changes
