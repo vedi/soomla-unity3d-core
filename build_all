@@ -1,0 +1,8 @@
+#!/bin/sh
+cd soomla-native/projects/unity-soomla-android-core
+./build_all
+cd -
+cd soomla-native/projects/unity-soomla-ios-core
+./build_all
+cd -
+./create_deploys
