@@ -6,3 +6,6 @@ cd soomla-native/projects/unity-soomla-ios-core
 ./build_all
 cd -
 ./create_deploys
+rm -rf build
+mkdir build
+cp *unitypackage build/
