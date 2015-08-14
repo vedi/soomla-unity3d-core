@@ -1,3 +1,11 @@
+### v1.0.9 [view commit logs](https://github.com/soomla/soomla-unity3d-core/compare/v1.0.8...v1.0.9)
+
+* Fixes
+  * Minor fixes for Unity v5
+
+* Changes
+  * Merged changes in submodules
+
 ### v1.0.8 [view commit logs](https://github.com/soomla/soomla-unity3d-core/compare/v1.0.7...v1.0.8)
 
 * New Features

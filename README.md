@@ -21,7 +21,7 @@ SOOMLA modules internally use these features, though we encourage you to use the
 
 ####Pre baked unitypackage:
 
-[soomla-unity3d-core 1.0.8](http://library.soom.la/fetch/unity3d-core/1.0.8?cf=github)
+[soomla-unity3d-core 1.0.9](http://library.soom.la/fetch/unity3d-core/1.0.9?cf=github)
 
 
 Contribution
