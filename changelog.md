@@ -1,3 +1,9 @@
+### v1.0.10 [view commit logs](https://github.com/soomla/soomla-unity3d-core/compare/v1.0.9...v1.0.10)
+
+* Fixes
+  * WP8 - PostBuild Path Fix for IAPMock
+  * iOS - replaced mod_pbxproj.pyc with mod_pbxproj.py
+
 ### v1.0.9 [view commit logs](https://github.com/soomla/soomla-unity3d-core/compare/v1.0.8...v1.0.9)
 
 * Fixes
