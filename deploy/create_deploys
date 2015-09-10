@@ -1,3 +1,8 @@
+#!/bin/sh
+set -e
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+cd $DIR
+
 DEPLOY_PATH=out
 PACKAGE_NAME=soomla-unity3d-core.unitypackage
 mkdir -p $DEPLOY_PATH
@@ -14,3 +19,5 @@ echo "creating unitypackage for SOOMLA Core"
     $CORE_FILES \
   $PWD/$DEPLOY_PATH/$PACKAGE_NAME \
   -quit
+
+cd - > /dev/null
