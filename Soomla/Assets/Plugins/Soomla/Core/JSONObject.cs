@@ -254,6 +254,11 @@ public class JSONObject : NullCheckable {
 		return sb.ToString();
 	}
 
+	public static string DecodeJsString(string s) {
+		return (new Regex(@"\\[uU]([0-9A-F]{4})"))
+			.Replace(s, match => ((char) System.Int32.Parse(match.Value.Substring(2), NumberStyles.HexNumber)).ToString());
+	}
+
 	public static JSONObject CreateBakedObject(string val) {
 		JSONObject bakedObject = Create();
 		bakedObject.type = Type.BAKED;
