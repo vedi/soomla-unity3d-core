@@ -40,6 +40,15 @@ extern "C" {
         [KeyValueStorage deleteValueForKey:keyS];
     }
 
+    void keyValStorage_GetEncryptedKeys(char** retVal) {
+        NSString* valS = [[KeyValueStorage getEncryptedKeys] componentsJoinedByString: @","];
+        if (!valS) {
+            valS = @"";
+        }
+
+        *retVal = Soom_AutonomousStringCopy([valS UTF8String]);
+    }
+
     long rewardStorage_GetLastGivenTimeMillis(const char* rewardId) {
         NSString* rewardIdS = [NSString stringWithUTF8String:rewardId];
         
