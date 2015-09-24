@@ -45,7 +45,11 @@ namespace Soomla.Singletons
 
             if (prefab)
             {
-                var instantiatedObject = Instantiate(prefab);
+                var instantiatedObject = Instantiate(prefab)
+#if !UNITY_5
+        as GameObject
+#endif
+                    ;
 
                 if (!instantiatedObject)
                 {
