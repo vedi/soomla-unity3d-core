@@ -92,7 +92,7 @@ namespace Soomla
 #endif
 		}
 
-		public List<string> _getEncryptedKeys() {
+		virtual protected List<string> _getEncryptedKeys() {
 #if UNITY_EDITOR
             return new List<string>(PlayerPrefs.GetString(ALL_KEYS_KEY, "").Split(','));
 #else
