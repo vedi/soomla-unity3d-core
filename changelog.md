@@ -1,3 +1,8 @@
+### v1.0.12 [view commit logs](https://github.com/soomla/soomla-unity3d-core/compare/v1.0.11...v1.0.12)
+
+* Fixes
+  * Fixes Wrong access modifiers at _getEncryptedKeys() method
+
 ### v1.0.11 [view commit logs](https://github.com/soomla/soomla-unity3d-core/compare/v1.0.10...v1.0.11)
 
 * Features
