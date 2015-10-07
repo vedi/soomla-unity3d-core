@@ -57,6 +57,14 @@ namespace Soomla {
 			AndroidJNI.PopLocalFrame(IntPtr.Zero);
             return new List<string>(val.Split(','));
 		}
+
+		override protected void _purge() {
+			AndroidJNI.PushLocalFrame(100);
+			using (AndroidJavaClass jniRewardStorage = new AndroidJavaClass("com.soomla.data.KeyValueStorage")) {
+				jniRewardStorage.CallStatic("purge");
+			}
+			AndroidJNI.PopLocalFrame(IntPtr.Zero);
+		}
 #endif
 	}
 }
