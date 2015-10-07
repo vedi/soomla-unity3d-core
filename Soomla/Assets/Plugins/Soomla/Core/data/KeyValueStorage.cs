@@ -61,6 +61,10 @@ namespace Soomla
             return instance._getEncryptedKeys();
         }
 
+		public static void Purge() {
+			instance._purge();
+		}
+
 
 		virtual protected string _getValue(string key) {
 #if UNITY_EDITOR
@@ -97,6 +101,12 @@ namespace Soomla
             return new List<string>(PlayerPrefs.GetString(ALL_KEYS_KEY, "").Split(','));
 #else
 			return null;
+#endif
+		}
+
+		virtual protected void _purge() {
+#if UNITY_EDITOR
+			PlayerPrefs.DeleteAll();
 #endif
 		}
 	}
