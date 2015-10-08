@@ -49,6 +49,10 @@ extern "C" {
         *retVal = Soom_AutonomousStringCopy([valS UTF8String]);
     }
 
+    void keyValStorage_Purge() {
+        [KeyValueStorage purge];
+    }
+
     long rewardStorage_GetLastGivenTimeMillis(const char* rewardId) {
         NSString* rewardIdS = [NSString stringWithUTF8String:rewardId];
         
