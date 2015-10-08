@@ -30,6 +30,8 @@ namespace Soomla {
 		private static extern void keyValStorage_DeleteKeyValue(string key);
 		[DllImport ("__Internal")]
 		private static extern void keyValStorage_GetEncryptedKeys(out IntPtr outResult);
+		[DllImport ("__Internal")]
+		private static extern void keyValStorage_Purge();
 
 		override protected string _getValue(string key) {
 			IntPtr p = IntPtr.Zero;
@@ -53,6 +55,10 @@ namespace Soomla {
             string val = Marshal.PtrToStringAnsi(p);
             Marshal.FreeHGlobal(p);
             return new List<string>(val.Split(','));
+		}
+
+		override protected void _purge () {
+			keyValStorage_Purge();
 		}
 #endif
 	}
