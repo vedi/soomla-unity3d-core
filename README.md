@@ -21,8 +21,12 @@ SOOMLA modules internally use these features, though we encourage you to use the
 
 ####Pre baked unitypackage:
 
-[soomla-unity3d-core 1.0.10](http://library.soom.la/fetch/unity3d-core/1.0.10?cf=github)
+The latest [soomla-unity3d-core](http://library.soom.la/fetch/unity3d-core/latest?cf=github) release
 
+#### From sources:
+ - Clone this repository;
+ - Run `./build_all` from project directory;
+ - Take created binaries from `build` directory and use it!
 
 Contribution
 ---
