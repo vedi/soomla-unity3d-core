@@ -1,3 +1,8 @@
+### v1.1.0 [view commit logs](https://github.com/soomla/soomla-unity3d-core/compare/v1.0.12...v1.1.0)
+
+* New Features
+  * Exposed KeyValueStorage DB purge method
+
 ### v1.0.12 [view commit logs](https://github.com/soomla/soomla-unity3d-core/compare/v1.0.11...v1.0.12)
 
 * Fixes
