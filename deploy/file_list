@@ -13,7 +13,6 @@ Assets/Soomla/Editor/SoomlaPostBuild.cs
 Assets/Soomla/Editor/SoomlaSettingsEditor.cs
 Assets/Soomla/Editor/build-tools/Soomla_CoreRunner.py
 Assets/Soomla/Editor/build-tools/mod_pbxproj.py
-Assets/Soomla/Prefabs/CoreEvents.prefab
 Assets/Soomla/Resources/SoomlaEditorScript.asset
 Assets/Soomla/Resources/soom_logo.png
 Assets/WebPlayerTemplates/SoomlaConfig/wp8
