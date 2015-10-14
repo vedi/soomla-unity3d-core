@@ -17,6 +17,7 @@ using System;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using Soomla.Singletons;
 #if UNITY_WP8 && !UNITY_EDITOR
 using SoomlaWpCore.util;
 using SoomlaWpCore.events;
@@ -27,7 +28,7 @@ namespace Soomla {
 	/// <summary>
 	/// This class provides functions for event handling.
 	/// </summary>
-	public class CoreEvents : MonoBehaviour {
+	public class CoreEvents : CodeGeneratedSingleton {
 
 #if UNITY_IOS && !UNITY_EDITOR
 		[DllImport ("__Internal")]
@@ -35,22 +36,18 @@ namespace Soomla {
 #endif
 
 		private const string TAG = "SOOMLA CoreEvents";
+		
+		protected override bool DontDestroySingleton
+        {
+            get { return true; }
+        }
 
-		private static CoreEvents instance = null;
+	    protected override void InitAfterRegisteringAsSingleInstance()
+        {
+            base.InitAfterRegisteringAsSingleInstance();
 
-		/// <summary>
-		/// Initializes game state before the game starts.
-		/// </summary>
-		void Awake(){
-			if(instance == null){ 	// making sure we only initialize one instance.
-				instance = this;
-                gameObject.name = "CoreEvents";
-				GameObject.DontDestroyOnLoad(this.gameObject);
-				Initialize();
-			} else {				// Destroying unused instances.
-				GameObject.Destroy(this.gameObject);
-			}
-		}
+            Initialize();
+        }
 
 		public static void Initialize() {
 			SoomlaUtils.LogDebug(TAG, "Initializing CoreEvents and Soomla Core ...");
