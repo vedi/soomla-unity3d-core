@@ -1,10 +1,5 @@
-Assets/Plugins/Android/SOOMLA/AndroidManifest.xml
-Assets/Plugins/Android/SOOMLA/project.properties
-Assets/Plugins/Android/SOOMLA/libs/SoomlaAndroidCore.jar
-Assets/Plugins/Android/SOOMLA/libs/square-otto-1.3.2.jar
-Assets/Plugins/Android/SOOMLA/libs/UnitySoomlaAndroidCore.jar
-Assets/Plugins/iOS/SOOMLA/libSoomlaIOSCore.a
-Assets/Plugins/iOS/SOOMLA/libUnitySoomlaiOSCore.a
+Assets/Plugins/Android/SOOMLA
+Assets/Plugins/iOS/SOOMLA
 Assets/Plugins/WP8/soomla-wp-core.dll
 Assets/Plugins/WP8/Sqlite.dll
 Assets/Plugins/WP8/Sqlite.winmd
