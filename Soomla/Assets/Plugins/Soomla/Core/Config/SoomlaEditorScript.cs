@@ -104,6 +104,36 @@ namespace Soomla
 	        Selection.activeObject = Instance;
 	    }
 
+		[MenuItem("Window/Soomla/Delete Soomla")]
+		public static void Delete()
+		{
+			if (EditorUtility.DisplayDialog ("Confirmation", "Are you sure you want to delete SOOMLA?", "Yes", "No")) {
+				string line;
+				string coreFilelist = "Assets/Soomla/core_file_list";
+				string storeFilelist = "Assets/Soomla/store_file_list";
+				string profileFilelist = "Assets/Soomla/profile_file_list";
+				string levelupFilelist = "Assets/Soomla/levelup_file_list";
+				string[] allPackages = new string[] {coreFilelist, storeFilelist, profileFilelist, levelupFilelist};
+				foreach(string filename in allPackages){
+					if(File.Exists(filename) ){ 
+						StreamReader reader = new StreamReader (filename);
+						do {
+							line = reader.ReadLine ();
+							if (line != null) {
+								FileUtil.DeleteFileOrDirectory (line);
+							}
+						} while(line!=null);
+						reader.Close();
+					}
+				}
+				FileUtil.DeleteFileOrDirectory("Assets/WebPlayerTemplates/SoomlaConfig");
+				FileUtil.DeleteFileOrDirectory("Assets/Soomla");
+				FileUtil.DeleteFileOrDirectory("Assets/Plugins/Soomla");
+				
+				AssetDatabase.Refresh();
+			}
+
+		}
 
 		[MenuItem("Window/Soomla/Framework Page")]
 	    public static void OpenFramework()
@@ -118,6 +148,7 @@ namespace Soomla
 			string url = "https://answers.soom.la";
 	        Application.OpenURL(url);
 	    }
+
 	#endif
 
 	    public static void DirtyEditor()
