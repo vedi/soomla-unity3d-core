@@ -148,6 +148,7 @@ namespace Soomla
 
 		public static JSONObject versionJson;
 		public static WWW www;
+		public static string status;
 
 		public static void GetVerstion(){
 			www = new WWW ("http://library.soom.la/fetch/info");
@@ -155,31 +156,39 @@ namespace Soomla
 
 		public static void LatestVersionField(string ident, string version)
 		{
+			string latestVersion = "";
 			if (versionJson == null) {
-				if(www.isDone) {
+				status = "Cheking version";
+				if (www.isDone) {
 					versionJson = new JSONObject (www.text);
 				}
 			} else {
-				string latestVersion = versionJson.GetField (ident).GetField ("latest").str;
-				if (version != latestVersion) {
-					EditorGUILayout.BeginHorizontal ();
-					EditorGUILayout.LabelField ("New version: ", GUILayout.Width (80), FieldHeight);
-					GUIStyle style = new GUIStyle (GUI.skin.label);
-					style.normal.textColor = Color.blue;
-					if (GUILayout.Button ("Download " + latestVersion, style, GUILayout.Width (110), FieldHeight)) {
-						if (ident == "unity3d-core") {
-							Application.OpenURL ("https://github.com/soomla/soomla-unity3d-core");
-						} else if (ident == "unity3d-store") {
-							Application.OpenURL ("https://github.com/soomla/unity3d-store");
-						} else if (ident == "unity3d-profile") {
-							Application.OpenURL ("https://github.com/soomla/unity3d-profile");
-						} else if (ident == "unity3d-levelup") {
-							Application.OpenURL ("https://github.com/soomla/unity3d-levelup");
-						}
-					}			
-					EditorGUILayout.EndHorizontal ();
-				}
+				latestVersion = versionJson.GetField (ident).GetField ("latest").str;
 			}
+			GUIStyle style = new GUIStyle (GUI.skin.label);
+			if (version != latestVersion) {
+				status = "New Core version available!";
+				style.normal.textColor = Color.blue;
+			} else {
+				status = "";
+			}
+			EditorGUILayout.BeginHorizontal ();
+			if (GUILayout.Button (status, style, GUILayout.Width (170), FieldHeight)) {
+				if (version != latestVersion) {
+					if(latestVersion != ""){
+						if (ident == "unity3d-core") {
+							Application.OpenURL ("http://library.soom.la/fetch/unity3d-core/latest?cf=unity");
+						} else if (ident == "unity3d-store") {
+							Application.OpenURL ("http://library.soom.la/fetch/unity3d-store/latest?cf=unity");
+						} else if (ident == "unity3d-profile") {
+							Application.OpenURL ("http://library.soom.la/fetch/unity3d-profile/latest?cf=unity");
+						} else if (ident == "unity3d-levelup") {
+							Application.OpenURL ("http://library.soom.la/fetch/unity3d-levelup/latest?cf=unity");
+						}
+					}
+				}
+			}			
+			EditorGUILayout.EndHorizontal ();
 		}
 
 		public static void SelectableLabelField(GUIContent label, string value)
