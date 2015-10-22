@@ -1,3 +1,23 @@
+### v1.1.0 [view commit logs](https://github.com/soomla/soomla-unity3d-core/compare/v1.0.12...v1.1.0)
+
+* New Features
+  * Exposed KeyValueStorage DB purge method
+
+### v1.0.12 [view commit logs](https://github.com/soomla/soomla-unity3d-core/compare/v1.0.11...v1.0.12)
+
+* Fixes
+  * Fixes Wrong access modifiers at _getEncryptedKeys() method
+
+### v1.0.11 [view commit logs](https://github.com/soomla/soomla-unity3d-core/compare/v1.0.10...v1.0.11)
+
+* Features
+  * Added KeyValStorage.GetEncryptedKeys
+
+* Fixes
+  * UserProfile fields do not support Unicode symbols
+  * Soomla works with IL2CPP
+  * UserProfile fields support Unicode symbols
+
 ### v1.0.10 [view commit logs](https://github.com/soomla/soomla-unity3d-core/compare/v1.0.9...v1.0.10)
 
 * Fixes
