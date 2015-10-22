@@ -14,6 +14,7 @@
 
 using UnityEngine;
 using System.IO;
+using System.Collections;
 using System.Collections.Generic;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -79,6 +80,7 @@ namespace Soomla
 			foreach(ISoomlaSettings settings in mSoomlaSettings) {
 				settings.OnEnable();
 			}
+			GetVerstion ();
 		}
 
 		public static void OnInspectorGUI() {
@@ -175,6 +177,51 @@ namespace Soomla
 		public static GUILayoutOption SpaceWidth = GUILayout.Width(24);
 		public static GUIContent EmptyContent = new GUIContent("");
 
+		public static JSONObject versionJson;
+		public static WWW www;
+		public static string status;
+
+		public static void GetVerstion(){
+			www = new WWW ("http://library.soom.la/fetch/info");
+		}
+
+		public static void LatestVersionField(string ident, string version)
+		{
+			string latestVersion = "";
+			if (versionJson == null) {
+				status = "Cheking version";
+				if (www.isDone) {
+					versionJson = new JSONObject (www.text);
+				}
+			} else {
+				latestVersion = versionJson.GetField (ident).GetField ("latest").str;
+			}
+			GUIStyle style = new GUIStyle (GUI.skin.label);
+			if (version != latestVersion) {
+				status = "New Core version available!";
+				style.normal.textColor = Color.blue;
+			} else {
+				status = "";
+			}
+			EditorGUILayout.BeginHorizontal ();
+			if (GUILayout.Button (status, style, GUILayout.Width (170), FieldHeight)) {
+				if (version != latestVersion) {
+					if(latestVersion != ""){
+						if (ident == "unity3d-core") {
+							Application.OpenURL ("http://library.soom.la/fetch/unity3d-core/latest?cf=unity");
+						} else if (ident == "unity3d-store") {
+							Application.OpenURL ("http://library.soom.la/fetch/unity3d-store/latest?cf=unity");
+						} else if (ident == "unity3d-profile") {
+							Application.OpenURL ("http://library.soom.la/fetch/unity3d-profile/latest?cf=unity");
+						} else if (ident == "unity3d-levelup") {
+							Application.OpenURL ("http://library.soom.la/fetch/unity3d-levelup/latest?cf=unity");
+						}
+					}
+				}
+			}			
+			EditorGUILayout.EndHorizontal ();
+		}
+
 		public static void SelectableLabelField(GUIContent label, string value)
 		{
 			EditorGUILayout.BeginHorizontal();
@@ -182,6 +229,7 @@ namespace Soomla
 			EditorGUILayout.SelectableLabel(value, FieldHeight);
 			EditorGUILayout.EndHorizontal();
 		}
+
 #endif
 	}
 }
