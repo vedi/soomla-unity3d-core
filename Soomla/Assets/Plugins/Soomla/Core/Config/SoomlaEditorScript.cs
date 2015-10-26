@@ -80,7 +80,7 @@ namespace Soomla
 			foreach(ISoomlaSettings settings in mSoomlaSettings) {
 				settings.OnEnable();
 			}
-			GetVerstion ();
+			GetVersion();
 		}
 
 		public static void OnInspectorGUI() {
@@ -181,42 +181,32 @@ namespace Soomla
 		public static WWW www;
 		public static string status;
 
-		public static void GetVerstion(){
+		public static void GetVersion(){
 			www = new WWW ("http://library.soom.la/fetch/info");
 		}
 
-		public static void LatestVersionField(string ident, string version)
+		public static void LatestVersionField(string moduleId, string currentVersion, string versionPrompt, string downloadLink)
 		{
 			string latestVersion = "";
 			if (versionJson == null) {
-				status = "Cheking version";
+				status = "Checking version...";
 				if (www.isDone) {
 					versionJson = new JSONObject (www.text);
 				}
 			} else {
-				latestVersion = versionJson.GetField (ident).GetField ("latest").str;
+				latestVersion = versionJson.GetField (moduleId).GetField ("latest").str;
 			}
 			GUIStyle style = new GUIStyle (GUI.skin.label);
-			if (version != latestVersion) {
-				status = "New Core version available!";
+			if (currentVersion != latestVersion) {
+				status = versionPrompt;
 				style.normal.textColor = Color.blue;
 			} else {
 				status = "";
 			}
 			EditorGUILayout.BeginHorizontal ();
 			if (GUILayout.Button (status, style, GUILayout.Width (170), FieldHeight)) {
-				if (version != latestVersion) {
-					if(latestVersion != ""){
-						if (ident == "unity3d-core") {
-							Application.OpenURL ("http://library.soom.la/fetch/unity3d-core/latest?cf=unity");
-						} else if (ident == "unity3d-store") {
-							Application.OpenURL ("http://library.soom.la/fetch/unity3d-store/latest?cf=unity");
-						} else if (ident == "unity3d-profile") {
-							Application.OpenURL ("http://library.soom.la/fetch/unity3d-profile/latest?cf=unity");
-						} else if (ident == "unity3d-levelup") {
-							Application.OpenURL ("http://library.soom.la/fetch/unity3d-levelup/latest?cf=unity");
-						}
-					}
+				if (currentVersion != latestVersion && latestVersion != "") {
+					Application.OpenURL(downloadLink);
 				}
 			}			
 			EditorGUILayout.EndHorizontal ();
