@@ -36,7 +36,9 @@ namespace Soomla {
 #endif
 
 		private const string TAG = "SOOMLA CoreEvents";
-		
+
+		public static CoreEvents Instance = null;		
+
 		protected override bool DontDestroySingleton
         {
             get { return true; }
@@ -44,38 +46,38 @@ namespace Soomla {
 
 	    protected override void InitAfterRegisteringAsSingleInstance()
         {
-            base.InitAfterRegisteringAsSingleInstance();
-
-            Initialize();
+            base.InitAfterRegisteringAsSingleInstance();			           
         }
 
 		public static void Initialize() {
-			SoomlaUtils.LogDebug(TAG, "Initializing CoreEvents and Soomla Core ...");
+			if (Instance == null) {
+				Instance = GetSynchronousCodeGeneratedInstance<CoreEvents>();
+				SoomlaUtils.LogDebug(TAG, "Initializing CoreEvents and Soomla Core ...");
 #if UNITY_ANDROID && !UNITY_EDITOR
-			AndroidJNI.PushLocalFrame(100);
-
-			using(AndroidJavaClass jniStoreConfigClass = new AndroidJavaClass("com.soomla.SoomlaConfig")) {
-				jniStoreConfigClass.SetStatic("logDebug", CoreSettings.DebugMessages);
-			}
-
-			// Initializing SoomlaEventHandler
-			using(AndroidJavaClass jniEventHandler = new AndroidJavaClass("com.soomla.core.unity.SoomlaEventHandler")) {
-				jniEventHandler.CallStatic("initialize");
-			}
-
-			// Initializing Soomla Secret
-			using(AndroidJavaClass jniSoomlaClass = new AndroidJavaClass("com.soomla.Soomla")) {
-				jniSoomlaClass.CallStatic("initialize", CoreSettings.SoomlaSecret);
-			}
-			AndroidJNI.PopLocalFrame(IntPtr.Zero);
+				AndroidJNI.PushLocalFrame(100);
+				
+				using(AndroidJavaClass jniStoreConfigClass = new AndroidJavaClass("com.soomla.SoomlaConfig")) {
+					jniStoreConfigClass.SetStatic("logDebug", CoreSettings.DebugMessages);
+				}
+				
+				// Initializing SoomlaEventHandler
+				using(AndroidJavaClass jniEventHandler = new AndroidJavaClass("com.soomla.core.unity.SoomlaEventHandler")) {
+					jniEventHandler.CallStatic("initialize");
+				}
+				
+				// Initializing Soomla Secret
+				using(AndroidJavaClass jniSoomlaClass = new AndroidJavaClass("com.soomla.Soomla")) {
+					jniSoomlaClass.CallStatic("initialize", CoreSettings.SoomlaSecret);
+				}
+				AndroidJNI.PopLocalFrame(IntPtr.Zero);
 #elif UNITY_IOS && !UNITY_EDITOR
-			soomlaCore_Init(CoreSettings.SoomlaSecret, CoreSettings.DebugMessages);
+				soomlaCore_Init(CoreSettings.SoomlaSecret, CoreSettings.DebugMessages);
 #elif UNITY_WP8 && !UNITY_EDITOR
-            SoomlaWpCore.SoomlaConfig.logDebug = CoreSettings.DebugMessages;
-            SoomlaWpCore.Soomla.initialize(CoreSettings.SoomlaSecret);
-            BusProvider.Instance.Register(CoreEvents.instance);
+				SoomlaWpCore.SoomlaConfig.logDebug = CoreSettings.DebugMessages;
+				SoomlaWpCore.Soomla.initialize(CoreSettings.SoomlaSecret);
+				BusProvider.Instance.Register(CoreEvents.instance);
 #endif
-
+			}
         }
 
 
