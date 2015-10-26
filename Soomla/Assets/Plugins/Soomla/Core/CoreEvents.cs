@@ -44,11 +44,6 @@ namespace Soomla {
             get { return true; }
         }
 
-	    protected override void InitAfterRegisteringAsSingleInstance()
-        {
-            base.InitAfterRegisteringAsSingleInstance();			           
-        }
-
 		public static void Initialize() {
 			if (Instance == null) {
 				Instance = GetSynchronousCodeGeneratedInstance<CoreEvents>();
