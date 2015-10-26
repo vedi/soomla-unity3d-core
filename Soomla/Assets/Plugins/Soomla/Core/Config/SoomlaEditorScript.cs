@@ -111,11 +111,7 @@ namespace Soomla
 		{
 			if (EditorUtility.DisplayDialog ("Confirmation", "Are you sure you want to delete SOOMLA?", "Yes", "No")) {
 				string line;
-				string coreFilelist = "Assets/Soomla/core_file_list";
-				string storeFilelist = "Assets/Soomla/store_file_list";
-				string profileFilelist = "Assets/Soomla/profile_file_list";
-				string levelupFilelist = "Assets/Soomla/levelup_file_list";
-				string[] allPackages = new string[] {coreFilelist, storeFilelist, profileFilelist, levelupFilelist};
+				string[] allPackages = System.IO.Directory.GetFiles("Assets/Soomla/", "*_file_list");;
 				foreach(string filename in allPackages){
 					if(File.Exists(filename) ){ 
 						StreamReader reader = new StreamReader (filename);
