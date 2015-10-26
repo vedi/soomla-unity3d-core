@@ -36,6 +36,9 @@ namespace Soomla
 		public static string DB_KEY_PREFIX = "soomla.";
 
 		static CoreSettings instance = new CoreSettings();
+
+		static string currentModuleVersion = "1.0.10";
+
 		static CoreSettings()
 		{
 			SoomlaEditorScript.addSettings(instance);
@@ -56,8 +59,8 @@ namespace Soomla
 
 		public void OnInfoGUI() {
 			EditorGUILayout.HelpBox("SOOMLA Framework Info", MessageType.None);
-			SoomlaEditorScript.SelectableLabelField(frameworkVersion, "1.0.10");
-			SoomlaEditorScript.LatestVersionField ("unity3d-core", "1.0.10", "New Core version available!", "http://library.soom.la/fetch/unity3d-core/latest?cf=unity");
+			SoomlaEditorScript.SelectableLabelField(frameworkVersion, currentModuleVersion);
+			SoomlaEditorScript.LatestVersionField ("unity3d-core", currentModuleVersion, "New Core version available!", "http://library.soom.la/fetch/unity3d-core/latest?cf=unity");
 			EditorGUILayout.Space();
 		}
 
