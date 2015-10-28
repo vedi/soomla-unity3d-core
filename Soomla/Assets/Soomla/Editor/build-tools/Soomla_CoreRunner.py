@@ -33,11 +33,11 @@ weak_frameworks = [
 pbx_file_path = sys.argv[1] + '/Unity-iPhone.xcodeproj/project.pbxproj'
 pbx_object = XcodeProject.Load(pbx_file_path)
 
-soomla_binaries_path = path.join(script_dir, '..', '..', '..', 'Plugins', 'iOS', 'SOOMLA')
-target_soomla_binaries_path = path.join(build_path, 'Libraries', 'SOOMLA')
+soomla_binaries_path = path.join(script_dir, '..', '..', '..', 'Plugins', 'iOS', 'Soomla')
+target_soomla_binaries_path = path.join(build_path, 'Libraries', 'Soomla')
 if not os.path.isdir(target_soomla_binaries_path):
   os.mkdir(target_soomla_binaries_path)
-soomla_libraries_group = pbx_object.get_or_create_group('SOOMLA', parent=pbx_object.get_or_create_group('Libraries'))
+soomla_libraries_group = pbx_object.get_or_create_group('Soomla', parent=pbx_object.get_or_create_group('Libraries'))
 for library in os.listdir(soomla_binaries_path):
   name_components = library.split('.')
   if (name_components[len(name_components) - 1] == 'a'):
