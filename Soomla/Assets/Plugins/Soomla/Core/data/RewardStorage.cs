@@ -107,9 +107,9 @@ namespace Soomla
 
 			if (notify) {
 				if (up) {
-					CoreEvents.OnRewardGiven(reward);
+					CoreEvents.OnRewardGiven(new RewardGivenEvent(reward));
 				} else {
-					CoreEvents.OnRewardTaken(reward);
+					CoreEvents.OnRewardTaken(new RewardTakenEvent(reward));
 				}
 			}
 #endif
