@@ -14,6 +14,7 @@
 
 using UnityEngine;
 using System.IO;
+using System.Collections;
 using System.Collections.Generic;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -79,6 +80,7 @@ namespace Soomla
 			foreach(ISoomlaSettings settings in mSoomlaSettings) {
 				settings.OnEnable();
 			}
+			GetVersion();
 		}
 
 		public static void OnInspectorGUI() {
@@ -104,6 +106,32 @@ namespace Soomla
 	        Selection.activeObject = Instance;
 	    }
 
+		[MenuItem("Window/Soomla/Delete Soomla")]
+		public static void Delete()
+		{
+			if (EditorUtility.DisplayDialog ("Confirmation", "Are you sure you want to delete SOOMLA?", "Yes", "No")) {
+				string line;
+				string[] allPackages = System.IO.Directory.GetFiles("Assets/Soomla/", "*_file_list");;
+				foreach(string filename in allPackages){
+					if(File.Exists(filename) ){ 
+						StreamReader reader = new StreamReader (filename);
+						do {
+							line = reader.ReadLine ();
+							if (line != null) {
+								FileUtil.DeleteFileOrDirectory (line);
+							}
+						} while(line!=null);
+						reader.Close();
+					}
+				}
+				FileUtil.DeleteFileOrDirectory("Assets/WebPlayerTemplates/SoomlaConfig");
+				FileUtil.DeleteFileOrDirectory("Assets/Soomla");
+				FileUtil.DeleteFileOrDirectory("Assets/Plugins/Soomla");
+				
+				AssetDatabase.Refresh();
+			}
+
+		}
 
 		[MenuItem("Window/Soomla/Framework Page")]
 	    public static void OpenFramework()
@@ -118,6 +146,7 @@ namespace Soomla
 			string url = "https://answers.soom.la";
 	        Application.OpenURL(url);
 	    }
+
 	#endif
 
 	    public static void DirtyEditor()
@@ -144,6 +173,41 @@ namespace Soomla
 		public static GUILayoutOption SpaceWidth = GUILayout.Width(24);
 		public static GUIContent EmptyContent = new GUIContent("");
 
+		public static JSONObject versionJson;
+		public static WWW www;
+		public static string status;
+
+		public static void GetVersion(){
+			www = new WWW ("http://library.soom.la/fetch/info");
+		}
+
+		public static void LatestVersionField(string moduleId, string currentVersion, string versionPrompt, string downloadLink)
+		{
+			string latestVersion = "";
+			if (versionJson == null) {
+				status = "Checking version...";
+				if (www.isDone) {
+					versionJson = new JSONObject (www.text);
+				}
+			} else {
+				latestVersion = versionJson.GetField (moduleId).GetField ("latest").str;
+			}
+			GUIStyle style = new GUIStyle (GUI.skin.label);
+			if (currentVersion != latestVersion) {
+				status = versionPrompt;
+				style.normal.textColor = Color.blue;
+			} else {
+				status = "";
+			}
+			EditorGUILayout.BeginHorizontal ();
+			if (GUILayout.Button (status, style, GUILayout.Width (170), FieldHeight)) {
+				if (currentVersion != latestVersion && latestVersion != "") {
+					Application.OpenURL(downloadLink);
+				}
+			}			
+			EditorGUILayout.EndHorizontal ();
+		}
+
 		public static void SelectableLabelField(GUIContent label, string value)
 		{
 			EditorGUILayout.BeginHorizontal();
@@ -151,6 +215,7 @@ namespace Soomla
 			EditorGUILayout.SelectableLabel(value, FieldHeight);
 			EditorGUILayout.EndHorizontal();
 		}
+
 #endif
 	}
 }
