@@ -36,6 +36,9 @@ namespace Soomla
 		public static string DB_KEY_PREFIX = "soomla.";
 
 		static CoreSettings instance = new CoreSettings();
+
+		static string currentModuleVersion = "1.1.0";
+
 		static CoreSettings()
 		{
 			SoomlaEditorScript.addSettings(instance);
@@ -44,8 +47,7 @@ namespace Soomla
 //		GUIContent emptyContent = new GUIContent("");
 
 		GUIContent frameworkVersion = new GUIContent("Core Version [?]", "The SOOMLA Framework version. ");
-		GUIContent buildVersion = new GUIContent("Core Build [?]", "The SOOMLA Framework build.");
-
+		
 		public void OnEnable() {
 			// Generating AndroidManifest.xml
 			SoomlaManifestTools.GenerateManifest();
@@ -57,8 +59,8 @@ namespace Soomla
 
 		public void OnInfoGUI() {
 			EditorGUILayout.HelpBox("SOOMLA Framework Info", MessageType.None);
-			SoomlaEditorScript.SelectableLabelField(frameworkVersion, "1.1.0");
-			SoomlaEditorScript.SelectableLabelField(buildVersion, "1");
+			SoomlaEditorScript.SelectableLabelField(frameworkVersion, currentModuleVersion);
+			SoomlaEditorScript.LatestVersionField ("unity3d-core", currentModuleVersion, "New Core version available!", "http://library.soom.la/fetch/unity3d-core/latest?cf=unity");
 			EditorGUILayout.Space();
 		}
 
