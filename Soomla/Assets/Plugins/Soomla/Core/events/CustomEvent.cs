@@ -4,12 +4,17 @@ using System.Collections.Generic;
 
 namespace Soomla
 {
-	public class CustomEvent
+	public class CustomEvent : SoomlaEvent
 	{
 		private string mName;
 		private Dictionary<string, string> mExtra;
 
-		public CustomEvent (string name, Dictionary<string, string> extra)
+        public CustomEvent(string name, Dictionary<string, string> extra) : this(name, extra, null)
+        {
+            
+        }
+
+        public CustomEvent (string name, Dictionary<string, string> extra, Object sender): base(sender)
 		{
 			mName = name;
 			mExtra = extra;
