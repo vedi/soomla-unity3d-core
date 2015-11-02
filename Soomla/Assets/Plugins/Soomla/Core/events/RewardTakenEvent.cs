@@ -3,18 +3,28 @@ using System.Collections;
 
 namespace Soomla
 {
-	public class RewardTakenEvent
+	public class RewardTakenEvent : SoomlaEvent
 	{
-		public readonly Reward reward;
+		public readonly Reward mReward;
 
-		public RewardTakenEvent (string rewardId)
+		public RewardTakenEvent (string rewardId) : this(rewardId, null)
 		{
-			reward = Reward.GetReward(rewardId);
+
 		}
 
-		public RewardTakenEvent (Reward reward)
-		{
-			this.reward = reward;
+		public RewardTakenEvent (Reward reward) : this(reward, null)
+        {
+
 		}
-	}
+
+        public RewardTakenEvent(string rewardId, Object sender) : base(sender)
+        {
+            mReward = Reward.GetReward(rewardId);
+        }
+
+        public RewardTakenEvent(Reward reward, Object sender) : base(sender)
+        {
+            mReward = reward;
+        }
+    }
 }
