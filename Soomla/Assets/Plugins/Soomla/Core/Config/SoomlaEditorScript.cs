@@ -80,7 +80,6 @@ namespace Soomla
 			foreach(ISoomlaSettings settings in mSoomlaSettings) {
 				settings.OnEnable();
 			}
-			GetVersion();
 		}
 
 		public static void OnInspectorGUI() {
@@ -174,34 +173,31 @@ namespace Soomla
 		public static GUIContent EmptyContent = new GUIContent("");
 
 		public static JSONObject versionJson;
-		public static WWW www;
-		public static string status;
+		public static WWW www = new WWW("http://library.soom.la/fetch/info");
+		public static string status = "";
 
-		public static void GetVersion(){
-			www = new WWW ("http://library.soom.la/fetch/info");
-		}
-
-		public static void LatestVersionField(string moduleId, string currentVersion, string versionPrompt, string downloadLink)
+        public static void LatestVersionField(string moduleId, string currentVersion, string versionPrompt, string downloadLink)
 		{
-			string latestVersion = "";
-			if (versionJson == null) {
-				status = "Checking version...";
+            bool newVersion = false;
+            if (versionJson == null) {
+                DirtyEditor();
 				if (www.isDone) {
-					versionJson = new JSONObject (www.text);
-				}
-			} else {
-				latestVersion = versionJson.GetField (moduleId).GetField ("latest").str;
-			}
-			GUIStyle style = new GUIStyle (GUI.skin.label);
-			if (currentVersion != latestVersion) {
-				status = versionPrompt;
-				style.normal.textColor = Color.blue;
-			} else {
-				status = "";
-			}
+                    versionJson = new JSONObject(www.text);
+                }
+            } else if (string.IsNullOrEmpty(www.error)) {
+                Debug.Log(www.error);
+				string latestVersion = versionJson.GetField (moduleId).GetField ("latest").str;
+                if (currentVersion != latestVersion) {
+                    status = versionPrompt;
+                    newVersion = true;
+                }
+            }
+
 			EditorGUILayout.BeginHorizontal ();
-			if (GUILayout.Button (status, style, GUILayout.Width (170), FieldHeight)) {
-				if (currentVersion != latestVersion && latestVersion != "") {
+            GUIStyle style = new GUIStyle(GUI.skin.label);
+            style.normal.textColor = Color.blue;
+            if (GUILayout.Button (status, style, GUILayout.Width (170), FieldHeight)) {
+				if (newVersion) {
 					Application.OpenURL(downloadLink);
 				}
 			}			
