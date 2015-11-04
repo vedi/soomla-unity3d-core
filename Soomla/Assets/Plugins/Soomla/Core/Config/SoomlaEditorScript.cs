@@ -173,25 +173,29 @@ namespace Soomla
 		public static GUIContent EmptyContent = new GUIContent("");
 
 		public static JSONObject versionJson;
-		public static WWW www = new WWW("http://library.soom.la/fetch/info");
+		public static WWW www;
 
-        public static void LatestVersionField(string moduleId, string currentVersion, string versionPrompt, string downloadLink)
+		public static void LatestVersionField(string moduleId, string currentVersion, string versionPrompt, string downloadLink)
 		{
+			if (www == null || (www.error != null && www.error.Length > 0)) {
+				www = new WWW("http://library.soom.la/fetch/info");
+			}		    
 			string latestVersion = null;
             if (versionJson == null) {
                 if (www.isDone) {
                     versionJson = new JSONObject(www.text);
                 }
                 DirtyEditor();
-            } else if (string.IsNullOrEmpty(www.error)) {
+            }
+			else {
                 latestVersion = versionJson.GetField (moduleId).GetField ("latest").str;
             }
 
             EditorGUILayout.BeginHorizontal();
             GUIStyle style = new GUIStyle(GUI.skin.label);
             style.normal.textColor = Color.blue;
-            if (GUILayout.Button ((currentVersion != latestVersion) ? versionPrompt : "", style, GUILayout.Width (170), FieldHeight)) {
-                if (currentVersion != latestVersion) {
+            if (GUILayout.Button ((latestVersion != null && currentVersion != latestVersion) ? versionPrompt : "", style, GUILayout.Width (170), FieldHeight)) {
+				if (latestVersion != null && currentVersion != latestVersion) {
                     Application.OpenURL(downloadLink);
                 }
             }
