@@ -181,26 +181,26 @@ namespace Soomla
 				www = new WWW("http://library.soom.la/fetch/info");
 			}		    
 			string latestVersion = null;
-            if (versionJson == null) {
-                if (www.isDone) {
-                    versionJson = new JSONObject(www.text);
-                }
-                DirtyEditor();
-            }
+			if (versionJson == null) {
+				if (www.isDone) {
+					versionJson = new JSONObject(www.text);
+				}
+				DirtyEditor();
+			}
 			else {
-                latestVersion = versionJson.GetField (moduleId).GetField ("latest").str;
-            }
+				latestVersion = versionJson.GetField (moduleId).GetField ("latest").str;
+			}
 
-            EditorGUILayout.BeginHorizontal();
-            GUIStyle style = new GUIStyle(GUI.skin.label);
-            style.normal.textColor = Color.blue;
-            if (GUILayout.Button ((latestVersion != null && currentVersion != latestVersion) ? versionPrompt : "", style, GUILayout.Width (170), FieldHeight)) {
+			EditorGUILayout.BeginHorizontal();
+			GUIStyle style = new GUIStyle(GUI.skin.label);
+			style.normal.textColor = Color.blue;
+			if (GUILayout.Button ((latestVersion != null && currentVersion != latestVersion) ? versionPrompt : "", style, GUILayout.Width (170), FieldHeight)) {
 				if (latestVersion != null && currentVersion != latestVersion) {
-                    Application.OpenURL(downloadLink);
-                }
-            }
-            EditorGUILayout.EndHorizontal();
-        }
+					Application.OpenURL(downloadLink);
+				}
+			}
+			EditorGUILayout.EndHorizontal();
+		}
 
 		public static void SelectableLabelField(GUIContent label, string value)
 		{
