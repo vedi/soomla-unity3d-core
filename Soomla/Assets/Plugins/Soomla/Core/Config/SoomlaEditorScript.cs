@@ -46,11 +46,11 @@ namespace Soomla
 			{
 				if (instance == null)
 				{
-          instance = Resources.Load(soomSettingsAssetName) as SoomlaEditorScript;
+	instance = Resources.Load(soomSettingsAssetName) as SoomlaEditorScript;
 
 					if (instance == null)
 					{
-            // If not found, autocreate the asset object.
+						// If not found, autocreate the asset object.
 						instance = CreateInstance<SoomlaEditorScript>();
 #if UNITY_EDITOR
 						string properPath = Path.Combine(Application.dataPath, soomSettingsPath);
@@ -60,7 +60,7 @@ namespace Soomla
 						}
 
 						string fullPath = Path.Combine(Path.Combine("Assets", soomSettingsPath),
-						                               soomSettingsAssetName + soomSettingsAssetExtension);
+										soomSettingsAssetName + soomSettingsAssetExtension);
 						AssetDatabase.CreateAsset(instance, fullPath);
 #endif
 					}
@@ -179,7 +179,7 @@ namespace Soomla
 		{
 			if (www == null || (www.error != null && www.error.Length > 0)) {
 				www = new WWW("http://library.soom.la/fetch/info");
-			}		    
+			}
 			string latestVersion = null;
 			if (versionJson == null) {
 				if (www.isDone) {
