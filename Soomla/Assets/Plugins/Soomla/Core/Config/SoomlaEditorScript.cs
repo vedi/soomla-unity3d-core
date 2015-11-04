@@ -69,7 +69,7 @@ namespace Soomla
 			}
 		}
 
-	#if UNITY_EDITOR
+#if UNITY_EDITOR
 
 		private static List<ISoomlaSettings> mSoomlaSettings = new List<ISoomlaSettings>();
 		public static void addSettings(ISoomlaSettings spp) {
@@ -100,10 +100,10 @@ namespace Soomla
 		}
 
 		[MenuItem("Window/Soomla/Edit Settings")]
-	    public static void Edit()
-	    {
-	        Selection.activeObject = Instance;
-	    }
+		public static void Edit()
+		{
+			Selection.activeObject = Instance;
+		}
 
 		[MenuItem("Window/Soomla/Delete Soomla")]
 		public static void Delete()
@@ -133,27 +133,27 @@ namespace Soomla
 		}
 
 		[MenuItem("Window/Soomla/Framework Page")]
-	    public static void OpenFramework()
-	    {
-	        string url = "https://www.github.com/soomla/unity3d-store";
-	        Application.OpenURL(url);
-	    }
+		public static void OpenFramework()
+		{
+			string url = "https://www.github.com/soomla/unity3d-store";
+			Application.OpenURL(url);
+		}
 
 		[MenuItem("Window/Soomla/Report an issue")]
-	    public static void OpenIssue()
-	    {
+		public static void OpenIssue()
+		{
 			string url = "https://answers.soom.la";
-	        Application.OpenURL(url);
-	    }
+			Application.OpenURL(url);
+		}
 
-	#endif
+#endif
 
-	    public static void DirtyEditor()
-	    {
-	#if UNITY_EDITOR
-	        EditorUtility.SetDirty(Instance);
-	#endif
-	    }
+		public static void DirtyEditor()
+		{
+#if UNITY_EDITOR
+			EditorUtility.SetDirty(Instance);
+#endif
+		}
 
 		[SerializeField]
 		public ObjectDictionary SoomlaSettings = new ObjectDictionary();
