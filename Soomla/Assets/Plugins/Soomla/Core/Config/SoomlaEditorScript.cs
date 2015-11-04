@@ -174,35 +174,29 @@ namespace Soomla
 
 		public static JSONObject versionJson;
 		public static WWW www = new WWW("http://library.soom.la/fetch/info");
-		public static string status = "";
 
         public static void LatestVersionField(string moduleId, string currentVersion, string versionPrompt, string downloadLink)
 		{
-            bool newVersion = false;
+			string latestVersion = null;
             if (versionJson == null) {
-                DirtyEditor();
-				if (www.isDone) {
+                if (www.isDone) {
                     versionJson = new JSONObject(www.text);
                 }
+                DirtyEditor();
             } else if (string.IsNullOrEmpty(www.error)) {
-                Debug.Log(www.error);
-				string latestVersion = versionJson.GetField (moduleId).GetField ("latest").str;
-                if (currentVersion != latestVersion) {
-                    status = versionPrompt;
-                    newVersion = true;
-                }
+                latestVersion = versionJson.GetField (moduleId).GetField ("latest").str;
             }
 
-			EditorGUILayout.BeginHorizontal ();
+            EditorGUILayout.BeginHorizontal();
             GUIStyle style = new GUIStyle(GUI.skin.label);
             style.normal.textColor = Color.blue;
-            if (GUILayout.Button (status, style, GUILayout.Width (170), FieldHeight)) {
-				if (newVersion) {
-					Application.OpenURL(downloadLink);
-				}
-			}			
-			EditorGUILayout.EndHorizontal ();
-		}
+            if (GUILayout.Button ((currentVersion != latestVersion) ? versionPrompt : "", style, GUILayout.Width (170), FieldHeight)) {
+                if (currentVersion != latestVersion) {
+                    Application.OpenURL(downloadLink);
+                }
+            }
+            EditorGUILayout.EndHorizontal();
+        }
 
 		public static void SelectableLabelField(GUIContent label, string value)
 		{
