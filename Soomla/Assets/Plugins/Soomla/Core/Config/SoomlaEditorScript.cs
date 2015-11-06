@@ -78,8 +78,27 @@ namespace Soomla
 			mSoomlaSettings.Add(spp);
 		}
 
-		public static void addFileList(string moduleId, string[] filePaths) {
-			mFileList.Add(moduleId, filePaths);
+		public static void addFileList(string moduleId, string fileListPath, string[] additionalFiles) {
+			List<string> foldersFiles = new List<string>();
+			foldersFiles.Add(fileListPath);
+			foldersFiles.AddRange (additionalFiles);
+			string line;
+			StreamReader reader = new StreamReader(fileListPath);
+			do {
+				line = reader.ReadLine();
+				if (line != null) {
+					foldersFiles.Add(line);
+#if UNITY_4
+					string placeHolder = "WP8/Soomla/Placeholder";
+					if(line.Contains(placeHolder)){
+						line.Remove(line.IndexOf(placeHolder), line.LastIndexOf(placeHolder));
+					}
+					foldersFiles.Add(line);
+#endif
+				}
+			} while (line != null);
+			reader.Close();
+			mFileList.Add(moduleId, foldersFiles.ToArray());
 		}
 
 		public static void OnEnable() {

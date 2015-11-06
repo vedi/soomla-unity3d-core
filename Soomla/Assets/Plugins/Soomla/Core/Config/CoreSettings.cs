@@ -44,19 +44,8 @@ namespace Soomla
 		{
 			SoomlaEditorScript.addSettings(instance);
 
-			string line;
-			List<string> foldersFiles = new List<string>();
-			string listPath = "Assets/Soomla/core_file_list";
-			foldersFiles.Add(listPath);
-			StreamReader reader = new StreamReader(listPath);
-			do {
-				line = reader.ReadLine();
-				if (line != null) {
-					foldersFiles.Add(line);
-				}
-			} while (line != null);
-			reader.Close();
-			SoomlaEditorScript.addFileList("Core", foldersFiles.ToArray());
+			List<string> additionalDependFiles = new List<string>(); //Add files that not tracked in file_list
+			SoomlaEditorScript.addFileList("Core", "Assets/Soomla/core_file_list", additionalDependFiles.ToArray());
 		}
 
 //		GUIContent emptyContent = new GUIContent("");
