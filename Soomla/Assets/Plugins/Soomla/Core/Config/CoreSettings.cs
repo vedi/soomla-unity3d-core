@@ -59,8 +59,8 @@ namespace Soomla
 
 		public void OnInfoGUI() {
 			EditorGUILayout.HelpBox("SOOMLA Framework Info", MessageType.None);
-			SoomlaEditorScript.SelectableLabelField(frameworkVersion, currentModuleVersion);
-			SoomlaEditorScript.LatestVersionField ("unity3d-core", currentModuleVersion, "New Core version available!", "http://library.soom.la/fetch/unity3d-core/latest?cf=unity");
+			SoomlaEditorScript.RemoveSoomlaModuleButton(frameworkVersion, currentModuleVersion, "Core", "core_file_list");
+			SoomlaEditorScript.LatestVersionField ("unity3d-core", currentModuleVersion, "New version available!", "http://library.soom.la/fetch/unity3d-core/latest?cf=unity");
 			EditorGUILayout.Space();
 		}
 

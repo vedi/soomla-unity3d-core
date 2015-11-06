@@ -167,7 +167,7 @@ namespace Soomla
 			www = new WWW ("http://library.soom.la/fetch/info");
 		}
 
-        public static void RemoveModule(string fileList)
+		public static void RemoveModule(string fileList)
         {
             string line;
             List<string> folders = new List<string>();
@@ -192,6 +192,20 @@ namespace Soomla
             } while (line != null);
             reader.Close();
             FileUtil.DeleteFileOrDirectory(filename);
+
+			folders.Sort((a, b) => b.Length.CompareTo(a.Length));
+			foreach (string fPath in folders)
+			{
+				AssetDatabase.Refresh();
+				Debug.Log(fPath);
+				if (Directory.Exists(fPath))
+				{
+					if (System.IO.Directory.GetFiles(fPath).Length == 0)
+					{
+						FileUtil.DeleteFileOrDirectory(fPath);
+					}
+				}
+			}
             AssetDatabase.Refresh();
         }
 
@@ -222,7 +236,7 @@ namespace Soomla
 			EditorGUILayout.EndHorizontal ();
 		}
 
-		public static void RemoveSoomlaModuleButton(GUIContent label, string value, string fileList, string moduleName)
+		public static void RemoveSoomlaModuleButton(GUIContent label, string value, string moduleName, string fileList)
 		{
 			EditorGUILayout.BeginHorizontal();
 			EditorGUILayout.LabelField(label, GUILayout.Width(140), FieldHeight);
@@ -231,7 +245,7 @@ namespace Soomla
 			GUIStyle style = new GUIStyle(GUI.skin.label);
 			style.normal.textColor = Color.blue;
 			if (GUILayout.Button("Remove", style, GUILayout.Width(60), FieldHeight)) {
-                if (EditorUtility.DisplayDialog("Confirmation", "Are you sure you want to delete? "+ moduleName, "Yes", "No"))
+                if (EditorUtility.DisplayDialog("Confirmation", "Are you sure you want to delete "+ moduleName + " ?", "Yes", "No"))
                 {
                     RemoveModule(fileList);
                 }
