@@ -106,11 +106,26 @@ namespace Soomla
 	        Selection.activeObject = Instance;
 	    }
 
-		[MenuItem("Window/Soomla/Delete Soomla")]
-		public static void Delete()
+		[MenuItem("Window/Soomla/Remove Soomla")]
+		public static void Remove()
 		{
-			if (EditorUtility.DisplayDialog ("Confirmation", "Are you sure you want to delete SOOMLA?", "Yes", "No")) {
-
+			if (EditorUtility.DisplayDialog("Confirmation", "Are you sure you want to remove SOOMLA?", "Yes", "No"))
+			{
+				//Main soomla folders
+				FileUtil.DeleteFileOrDirectory("Assets/Plugins/Soomla");
+				FileUtil.DeleteFileOrDirectory("Assets/Plugins/iOS/Soomla");
+				FileUtil.DeleteFileOrDirectory("Assets/Plugins/Android/Soomla");
+				//Profile dependence files
+				FileUtil.DeleteFileOrDirectory("Assets/Plugins/Android/bolts.jar");
+				FileUtil.DeleteFileOrDirectory("Assets/Plugins/Android/android-support-v4.jar");
+				FileUtil.DeleteFileOrDirectory("Assets/Plugins/Facebook");
+				FileUtil.DeleteFileOrDirectory("Assets/Facebook");
+				
+				string[] allPackages = System.IO.Directory.GetFiles("Assets/Soomla/", "*_file_list");
+				foreach (string filename in allPackages)
+				{
+					RemoveModule(filename, new string[] { });
+				}
 			}
 		}
 
@@ -162,37 +177,29 @@ namespace Soomla
 			www = new WWW ("http://library.soom.la/fetch/info");
 		}
 
-		public static void RemoveModule(string fileList, string[] additionalFiles)
-        {
-            string line;
-            List<string> folders = new List<string>();
-            string filename = "Assets/Soomla/" + fileList;
-            StreamReader reader = new StreamReader(filename);
-            do
-            {
-                line = reader.ReadLine();
-                if (line != null)
-                {
-                    FileUtil.DeleteFileOrDirectory(line);
-                    string folderPath = Path.GetDirectoryName(line);
-                    do
-                    {
-                        if (!folders.Contains(folderPath))
-                        {
-                            folders.Add(folderPath);
-                        }
-                        folderPath = Path.GetDirectoryName(folderPath);
-                    } while (folderPath != "");
-                }
-            } while (line != null);
-            reader.Close();
-            FileUtil.DeleteFileOrDirectory(filename);
-
-			foreach (string file in additionalFiles)
+		public static void RemoveModule(string fileList, string[] additionalFiles) {
+			string line;
+			List<string> folders = new List<string>();
+			string filename = "Assets/Soomla/" + fileList;
+			StreamReader reader = new StreamReader(filename);
+			do
 			{
-				Debug.Log(file);
-				FileUtil.DeleteFileOrDirectory(file);
-			}
+				line = reader.ReadLine();
+				if (line != null) {
+					FileUtil.DeleteFileOrDirectory(line);
+					string folderPath = Path.GetDirectoryName(line);
+					do {
+						if (!folders.Contains(folderPath)) {
+							folders.Add(folderPath);
+						}
+						folderPath = Path.GetDirectoryName(folderPath);
+					} while (folderPath != "");
+				}
+			} while (line != null);
+			reader.Close();
+			FileUtil.DeleteFileOrDirectory(filename);
+
+			RemoveFiles (additionalFiles);
 			
 			folders.Sort((a, b) => b.Length.CompareTo(a.Length));
 			foreach (string fPath in folders)
@@ -209,6 +216,12 @@ namespace Soomla
 			}
             AssetDatabase.Refresh();
         }
+
+		private static void RemoveFiles(string[] files){
+			foreach (string file in files){
+				FileUtil.DeleteFileOrDirectory(file);
+			}
+		}
 
         public static void LatestVersionField(string moduleId, string currentVersion, string versionPrompt, string downloadLink)
 		{
