@@ -110,13 +110,8 @@ namespace Soomla
 		public static void Delete()
 		{
 			if (EditorUtility.DisplayDialog ("Confirmation", "Are you sure you want to delete SOOMLA?", "Yes", "No")) {
-				string[] allPackages = System.IO.Directory.GetFiles("Assets/Soomla/", "*_file_list");;
-				foreach(string filename in allPackages){
-                    RemoveModule(filename);
-				}
-				AssetDatabase.Refresh();
-			}
 
+			}
 		}
 
 		[MenuItem("Window/Soomla/Framework Page")]
@@ -167,7 +162,7 @@ namespace Soomla
 			www = new WWW ("http://library.soom.la/fetch/info");
 		}
 
-		public static void RemoveModule(string fileList)
+		public static void RemoveModule(string fileList, string[] additionalFiles)
         {
             string line;
             List<string> folders = new List<string>();
@@ -193,6 +188,12 @@ namespace Soomla
             reader.Close();
             FileUtil.DeleteFileOrDirectory(filename);
 
+			foreach (string file in additionalFiles)
+			{
+				Debug.Log(file);
+				FileUtil.DeleteFileOrDirectory(file);
+			}
+			
 			folders.Sort((a, b) => b.Length.CompareTo(a.Length));
 			foreach (string fPath in folders)
 			{
@@ -236,7 +237,7 @@ namespace Soomla
 			EditorGUILayout.EndHorizontal ();
 		}
 
-		public static void RemoveSoomlaModuleButton(GUIContent label, string value, string moduleName, string fileList)
+		public static void RemoveSoomlaModuleButton(GUIContent label, string value, string moduleName, string fileList, string[] additionalFiles)
 		{
 			EditorGUILayout.BeginHorizontal();
 			EditorGUILayout.LabelField(label, GUILayout.Width(140), FieldHeight);
@@ -247,7 +248,7 @@ namespace Soomla
 			if (GUILayout.Button("Remove", style, GUILayout.Width(60), FieldHeight)) {
                 if (EditorUtility.DisplayDialog("Confirmation", "Are you sure you want to delete "+ moduleName + " ?", "Yes", "No"))
                 {
-                    RemoveModule(fileList);
+					RemoveModule(fileList, additionalFiles);
                 }
 			}
 			EditorGUILayout.EndHorizontal();
