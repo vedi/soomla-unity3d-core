@@ -72,8 +72,14 @@ namespace Soomla
 	#if UNITY_EDITOR
 
 		private static List<ISoomlaSettings> mSoomlaSettings = new List<ISoomlaSettings>();
+		private static Dictionary<string, string[]>mFileList = new Dictionary<string, string[]>();
+		
 		public static void addSettings(ISoomlaSettings spp) {
 			mSoomlaSettings.Add(spp);
+		}
+
+		public static void addFileList(string moduleId, string[] filePaths) {
+			mFileList.Add(moduleId, filePaths);
 		}
 
 		public static void OnEnable() {
@@ -107,24 +113,11 @@ namespace Soomla
 	    }
 
 		[MenuItem("Window/Soomla/Remove Soomla")]
-		public static void Remove()
+		public static void Remove() 
 		{
-			if (EditorUtility.DisplayDialog("Confirmation", "Are you sure you want to remove SOOMLA?", "Yes", "No"))
-			{
-				//Main soomla folders
-				FileUtil.DeleteFileOrDirectory("Assets/Plugins/Soomla");
-				FileUtil.DeleteFileOrDirectory("Assets/Plugins/iOS/Soomla");
-				FileUtil.DeleteFileOrDirectory("Assets/Plugins/Android/Soomla");
-				//Profile dependence files
-				FileUtil.DeleteFileOrDirectory("Assets/Plugins/Android/bolts.jar");
-				FileUtil.DeleteFileOrDirectory("Assets/Plugins/Android/android-support-v4.jar");
-				FileUtil.DeleteFileOrDirectory("Assets/Plugins/Facebook");
-				FileUtil.DeleteFileOrDirectory("Assets/Facebook");
-				
-				string[] allPackages = System.IO.Directory.GetFiles("Assets/Soomla/", "*_file_list");
-				foreach (string filename in allPackages)
-				{
-					RemoveModule(filename, new string[] { });
+			if (EditorUtility.DisplayDialog("Confirmation", "Are you sure you want to remove SOOMLA?", "Yes", "No")) {
+				foreach (KeyValuePair<string, string[]> attachStat in mFileList) {
+					RemoveModule(attachStat.Value);
 				}
 			}
 		}
@@ -177,45 +170,30 @@ namespace Soomla
 			www = new WWW ("http://library.soom.la/fetch/info");
 		}
 
-		public static void RemoveModule(string fileList, string[] additionalFiles) {
-			string line;
+		public static void RemoveModule(string[] filePaths)
+		{
 			List<string> folders = new List<string>();
-			string filename = "Assets/Soomla/" + fileList;
-			StreamReader reader = new StreamReader(filename);
-			do
-			{
-				line = reader.ReadLine();
-				if (line != null) {
-					FileUtil.DeleteFileOrDirectory(line);
-					string folderPath = Path.GetDirectoryName(line);
-					do {
-						if (!folders.Contains(folderPath)) {
-							folders.Add(folderPath);
-						}
-						folderPath = Path.GetDirectoryName(folderPath);
-					} while (folderPath != "");
-				}
-			} while (line != null);
-			reader.Close();
-			FileUtil.DeleteFileOrDirectory(filename);
-
-			RemoveFiles (additionalFiles);
-			
+			foreach (string file in filePaths) {
+				FileUtil.DeleteFileOrDirectory(file);
+				string folderPath = Path.GetDirectoryName(file);
+				do {
+					if (!folders.Contains(folderPath)) {
+						folders.Add(folderPath);
+					}
+					folderPath = Path.GetDirectoryName(folderPath);
+				} while (folderPath != "");
+			}
 			folders.Sort((a, b) => b.Length.CompareTo(a.Length));
-			foreach (string fPath in folders)
-			{
+			foreach (string fPath in folders) {
 				AssetDatabase.Refresh();
-				Debug.Log(fPath);
-				if (Directory.Exists(fPath))
-				{
-					if (System.IO.Directory.GetFiles(fPath).Length == 0)
-					{
+				if (Directory.Exists(fPath)) {
+					if (System.IO.Directory.GetFiles(fPath).Length == 0) {
 						FileUtil.DeleteFileOrDirectory(fPath);
 					}
 				}
 			}
-            AssetDatabase.Refresh();
-        }
+			AssetDatabase.Refresh();
+		}
 
 		private static void RemoveFiles(string[] files){
 			foreach (string file in files){
@@ -250,7 +228,7 @@ namespace Soomla
 			EditorGUILayout.EndHorizontal ();
 		}
 
-		public static void RemoveSoomlaModuleButton(GUIContent label, string value, string moduleName, string fileList, string[] additionalFiles)
+		public static void RemoveSoomlaModuleButton(GUIContent label, string value, string moduleId)
 		{
 			EditorGUILayout.BeginHorizontal();
 			EditorGUILayout.LabelField(label, GUILayout.Width(140), FieldHeight);
@@ -259,10 +237,9 @@ namespace Soomla
 			GUIStyle style = new GUIStyle(GUI.skin.label);
 			style.normal.textColor = Color.blue;
 			if (GUILayout.Button("Remove", style, GUILayout.Width(60), FieldHeight)) {
-                if (EditorUtility.DisplayDialog("Confirmation", "Are you sure you want to delete "+ moduleName + " ?", "Yes", "No"))
-                {
-					RemoveModule(fileList, additionalFiles);
-                }
+				if (EditorUtility.DisplayDialog("Confirmation", "Are you sure you want to delete " + moduleId + " ?", "Yes", "No")) {
+					RemoveModule(mFileList[moduleId]);
+				}
 			}
 			EditorGUILayout.EndHorizontal();
 		}
