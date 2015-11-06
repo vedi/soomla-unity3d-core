@@ -110,24 +110,10 @@ namespace Soomla
 		public static void Delete()
 		{
 			if (EditorUtility.DisplayDialog ("Confirmation", "Are you sure you want to delete SOOMLA?", "Yes", "No")) {
-				string line;
 				string[] allPackages = System.IO.Directory.GetFiles("Assets/Soomla/", "*_file_list");;
 				foreach(string filename in allPackages){
-					if(File.Exists(filename) ){ 
-						StreamReader reader = new StreamReader (filename);
-						do {
-							line = reader.ReadLine ();
-							if (line != null) {
-								FileUtil.DeleteFileOrDirectory (line);
-							}
-						} while(line!=null);
-						reader.Close();
-					}
+                    RemoveModule(filename);
 				}
-				FileUtil.DeleteFileOrDirectory("Assets/WebPlayerTemplates/SoomlaConfig");
-				FileUtil.DeleteFileOrDirectory("Assets/Soomla");
-				FileUtil.DeleteFileOrDirectory("Assets/Plugins/Soomla");
-				
 				AssetDatabase.Refresh();
 			}
 
@@ -181,7 +167,35 @@ namespace Soomla
 			www = new WWW ("http://library.soom.la/fetch/info");
 		}
 
-		public static void LatestVersionField(string moduleId, string currentVersion, string versionPrompt, string downloadLink)
+        public static void RemoveModule(string fileList)
+        {
+            string line;
+            List<string> folders = new List<string>();
+            string filename = "Assets/Soomla/" + fileList;
+            StreamReader reader = new StreamReader(filename);
+            do
+            {
+                line = reader.ReadLine();
+                if (line != null)
+                {
+                    FileUtil.DeleteFileOrDirectory(line);
+                    string folderPath = Path.GetDirectoryName(line);
+                    do
+                    {
+                        if (!folders.Contains(folderPath))
+                        {
+                            folders.Add(folderPath);
+                        }
+                        folderPath = Path.GetDirectoryName(folderPath);
+                    } while (folderPath != "");
+                }
+            } while (line != null);
+            reader.Close();
+            FileUtil.DeleteFileOrDirectory(filename);
+            AssetDatabase.Refresh();
+        }
+
+        public static void LatestVersionField(string moduleId, string currentVersion, string versionPrompt, string downloadLink)
 		{
 			string latestVersion = "";
 			if (versionJson == null) {
@@ -206,6 +220,23 @@ namespace Soomla
 				}
 			}			
 			EditorGUILayout.EndHorizontal ();
+		}
+
+		public static void RemoveSoomlaModuleButton(GUIContent label, string value, string fileList, string moduleName)
+		{
+			EditorGUILayout.BeginHorizontal();
+			EditorGUILayout.LabelField(label, GUILayout.Width(140), FieldHeight);
+			EditorGUILayout.SelectableLabel(value, GUILayout.Width(40), FieldHeight);
+			
+			GUIStyle style = new GUIStyle(GUI.skin.label);
+			style.normal.textColor = Color.blue;
+			if (GUILayout.Button("Remove", style, GUILayout.Width(60), FieldHeight)) {
+                if (EditorUtility.DisplayDialog("Confirmation", "Are you sure you want to delete? "+ moduleName, "Yes", "No"))
+                {
+                    RemoveModule(fileList);
+                }
+			}
+			EditorGUILayout.EndHorizontal();
 		}
 
 		public static void SelectableLabelField(GUIContent label, string value)
