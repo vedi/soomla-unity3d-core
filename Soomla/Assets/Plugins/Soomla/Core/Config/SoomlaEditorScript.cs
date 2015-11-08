@@ -46,11 +46,11 @@ namespace Soomla
 			{
 				if (instance == null)
 				{
-          instance = Resources.Load(soomSettingsAssetName) as SoomlaEditorScript;
+	instance = Resources.Load(soomSettingsAssetName) as SoomlaEditorScript;
 
 					if (instance == null)
 					{
-            // If not found, autocreate the asset object.
+						// If not found, autocreate the asset object.
 						instance = CreateInstance<SoomlaEditorScript>();
 #if UNITY_EDITOR
 						string properPath = Path.Combine(Application.dataPath, soomSettingsPath);
@@ -60,7 +60,7 @@ namespace Soomla
 						}
 
 						string fullPath = Path.Combine(Path.Combine("Assets", soomSettingsPath),
-						                               soomSettingsAssetName + soomSettingsAssetExtension);
+										soomSettingsAssetName + soomSettingsAssetExtension);
 						AssetDatabase.CreateAsset(instance, fullPath);
 #endif
 					}
@@ -69,7 +69,7 @@ namespace Soomla
 			}
 		}
 
-	#if UNITY_EDITOR
+#if UNITY_EDITOR
 
 		private static List<ISoomlaSettings> mSoomlaSettings = new List<ISoomlaSettings>();
 		public static void addSettings(ISoomlaSettings spp) {
@@ -80,7 +80,6 @@ namespace Soomla
 			foreach(ISoomlaSettings settings in mSoomlaSettings) {
 				settings.OnEnable();
 			}
-			GetVersion();
 		}
 
 		public static void OnInspectorGUI() {
@@ -101,10 +100,10 @@ namespace Soomla
 		}
 
 		[MenuItem("Window/Soomla/Edit Settings")]
-	    public static void Edit()
-	    {
-	        Selection.activeObject = Instance;
-	    }
+		public static void Edit()
+		{
+			Selection.activeObject = Instance;
+		}
 
 		[MenuItem("Window/Soomla/Delete Soomla")]
 		public static void Delete()
@@ -134,27 +133,27 @@ namespace Soomla
 		}
 
 		[MenuItem("Window/Soomla/Framework Page")]
-	    public static void OpenFramework()
-	    {
-	        string url = "https://www.github.com/soomla/unity3d-store";
-	        Application.OpenURL(url);
-	    }
+		public static void OpenFramework()
+		{
+			string url = "https://www.github.com/soomla/unity3d-store";
+			Application.OpenURL(url);
+		}
 
 		[MenuItem("Window/Soomla/Report an issue")]
-	    public static void OpenIssue()
-	    {
+		public static void OpenIssue()
+		{
 			string url = "https://answers.soom.la";
-	        Application.OpenURL(url);
-	    }
+			Application.OpenURL(url);
+		}
 
-	#endif
+#endif
 
-	    public static void DirtyEditor()
-	    {
-	#if UNITY_EDITOR
-	        EditorUtility.SetDirty(Instance);
-	#endif
-	    }
+		public static void DirtyEditor()
+		{
+#if UNITY_EDITOR
+			EditorUtility.SetDirty(Instance);
+#endif
+		}
 
 		[SerializeField]
 		public ObjectDictionary SoomlaSettings = new ObjectDictionary();
@@ -175,37 +174,32 @@ namespace Soomla
 
 		public static JSONObject versionJson;
 		public static WWW www;
-		public static string status;
-
-		public static void GetVersion(){
-			www = new WWW ("http://library.soom.la/fetch/info");
-		}
 
 		public static void LatestVersionField(string moduleId, string currentVersion, string versionPrompt, string downloadLink)
 		{
-			string latestVersion = "";
+			if (www == null || (www.error != null && www.error.Length > 0)) {
+				www = new WWW("http://library.soom.la/fetch/info");
+			}
+			string latestVersion = null;
 			if (versionJson == null) {
-				status = "Checking version...";
 				if (www.isDone) {
-					versionJson = new JSONObject (www.text);
+					versionJson = new JSONObject(www.text);
 				}
-			} else {
+				DirtyEditor();
+			}
+			else {
 				latestVersion = versionJson.GetField (moduleId).GetField ("latest").str;
 			}
-			GUIStyle style = new GUIStyle (GUI.skin.label);
-			if (currentVersion != latestVersion) {
-				status = versionPrompt;
-				style.normal.textColor = Color.blue;
-			} else {
-				status = "";
-			}
-			EditorGUILayout.BeginHorizontal ();
-			if (GUILayout.Button (status, style, GUILayout.Width (170), FieldHeight)) {
-				if (currentVersion != latestVersion && latestVersion != "") {
+
+			EditorGUILayout.BeginHorizontal();
+			GUIStyle style = new GUIStyle(GUI.skin.label);
+			style.normal.textColor = Color.blue;
+			if (GUILayout.Button ((latestVersion != null && currentVersion != latestVersion) ? versionPrompt : "", style, GUILayout.Width (170), FieldHeight)) {
+				if (latestVersion != null && currentVersion != latestVersion) {
 					Application.OpenURL(downloadLink);
 				}
-			}			
-			EditorGUILayout.EndHorizontal ();
+			}
+			EditorGUILayout.EndHorizontal();
 		}
 
 		public static void SelectableLabelField(GUIContent label, string value)
