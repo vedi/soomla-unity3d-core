@@ -44,8 +44,7 @@ namespace Soomla
 		{
 			SoomlaEditorScript.addSettings(instance);
 
-			List<string> additionalDependFiles = new List<string>(); //Add files that not tracked in file_list
-			SoomlaEditorScript.addFileList("Core", "Assets/Soomla/core_file_list", additionalDependFiles.ToArray());
+			SoomlaEditorScript.addFileList("Core", "Assets/Soomla/core_file_list", new string[]{});
 		}
 
 //		GUIContent emptyContent = new GUIContent("");
