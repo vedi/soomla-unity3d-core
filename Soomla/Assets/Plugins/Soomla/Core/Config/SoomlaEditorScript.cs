@@ -72,8 +72,33 @@ namespace Soomla
 #if UNITY_EDITOR
 
 		private static List<ISoomlaSettings> mSoomlaSettings = new List<ISoomlaSettings>();
+		private static Dictionary<string, string[]>mFileList = new Dictionary<string, string[]>();
+		
 		public static void addSettings(ISoomlaSettings spp) {
 			mSoomlaSettings.Add(spp);
+		}
+
+		public static void addFileList(string moduleId, string fileListPath, string[] additionalFiles) {
+			List<string> foldersFiles = new List<string>();
+			foldersFiles.Add(fileListPath);
+			foldersFiles.AddRange (additionalFiles);
+			string line;
+			StreamReader reader = new StreamReader(fileListPath);
+			do {
+				line = reader.ReadLine();
+				if (line != null) {
+					foldersFiles.Add(line);
+#if UNITY_4
+					string placeHolder = "WP8/Soomla/Placeholder";
+					if(line.Contains(placeHolder)){
+						line.Remove(line.IndexOf(placeHolder), line.LastIndexOf(placeHolder));
+					}
+					foldersFiles.Add(line);
+#endif
+				}
+			} while (line != null);
+			reader.Close();
+			mFileList.Add(moduleId, foldersFiles.ToArray());
 		}
 
 		public static void OnEnable() {
@@ -105,31 +130,14 @@ namespace Soomla
 			Selection.activeObject = Instance;
 		}
 
-		[MenuItem("Window/Soomla/Delete Soomla")]
-		public static void Delete()
+		[MenuItem("Window/Soomla/Remove Soomla")]
+		public static void Remove() 
 		{
-			if (EditorUtility.DisplayDialog ("Confirmation", "Are you sure you want to delete SOOMLA?", "Yes", "No")) {
-				string line;
-				string[] allPackages = System.IO.Directory.GetFiles("Assets/Soomla/", "*_file_list");;
-				foreach(string filename in allPackages){
-					if(File.Exists(filename) ){ 
-						StreamReader reader = new StreamReader (filename);
-						do {
-							line = reader.ReadLine ();
-							if (line != null) {
-								FileUtil.DeleteFileOrDirectory (line);
-							}
-						} while(line!=null);
-						reader.Close();
-					}
+			if (EditorUtility.DisplayDialog("Confirmation", "Are you sure you want to remove SOOMLA?", "Yes", "No")) {
+				foreach (KeyValuePair<string, string[]> attachStat in mFileList) {
+					RemoveModule(attachStat.Value);
 				}
-				FileUtil.DeleteFileOrDirectory("Assets/WebPlayerTemplates/SoomlaConfig");
-				FileUtil.DeleteFileOrDirectory("Assets/Soomla");
-				FileUtil.DeleteFileOrDirectory("Assets/Plugins/Soomla");
-				
-				AssetDatabase.Refresh();
 			}
-
 		}
 
 		[MenuItem("Window/Soomla/Framework Page")]
@@ -175,7 +183,32 @@ namespace Soomla
 		public static JSONObject versionJson;
 		public static WWW www;
 
-		public static void LatestVersionField(string moduleId, string currentVersion, string versionPrompt, string downloadLink)
+		public static void RemoveModule(string[] filePaths)
+		{
+			List<string> folders = new List<string>();
+			foreach (string file in filePaths) {
+				FileUtil.DeleteFileOrDirectory(file);
+				string folderPath = Path.GetDirectoryName(file);
+				do {
+					if (!folders.Contains(folderPath)) {
+						folders.Add(folderPath);
+					}
+					folderPath = Path.GetDirectoryName(folderPath);
+				} while (folderPath != "");
+			}
+			folders.Sort((a, b) => b.Length.CompareTo(a.Length));
+			foreach (string fPath in folders) {
+				AssetDatabase.Refresh();
+				if (Directory.Exists(fPath)) {
+					if (System.IO.Directory.GetFiles(fPath).Length == 0) {
+						FileUtil.DeleteFileOrDirectory(fPath);
+					}
+				}
+			}
+			AssetDatabase.Refresh();
+		}
+
+        public static void LatestVersionField(string moduleId, string currentVersion, string versionPrompt, string downloadLink)
 		{
 			if (www == null || (www.error != null && www.error.Length > 0)) {
 				www = new WWW("http://library.soom.la/fetch/info");
@@ -197,6 +230,22 @@ namespace Soomla
 			if (GUILayout.Button ((latestVersion != null && currentVersion != latestVersion) ? versionPrompt : "", style, GUILayout.Width (170), FieldHeight)) {
 				if (latestVersion != null && currentVersion != latestVersion) {
 					Application.OpenURL(downloadLink);
+				}
+			}
+			EditorGUILayout.EndHorizontal();
+		}
+
+		public static void RemoveSoomlaModuleButton(GUIContent label, string value, string moduleId)
+		{
+			EditorGUILayout.BeginHorizontal();
+			EditorGUILayout.LabelField(label, GUILayout.Width(140), FieldHeight);
+			EditorGUILayout.SelectableLabel(value, GUILayout.Width(40), FieldHeight);
+			
+			GUIStyle style = new GUIStyle(GUI.skin.label);
+			style.normal.textColor = Color.blue;
+			if (GUILayout.Button("Remove", style, GUILayout.Width(60), FieldHeight)) {
+				if (EditorUtility.DisplayDialog("Confirmation", "Are you sure you want to delete " + moduleId + " ?", "Yes", "No")) {
+					RemoveModule(mFileList[moduleId]);
 				}
 			}
 			EditorGUILayout.EndHorizontal();

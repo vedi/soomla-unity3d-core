@@ -15,6 +15,7 @@
 using UnityEngine;
 using System.IO;
 using System;
+using System.Collections.Generic;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -42,6 +43,8 @@ namespace Soomla
 		static CoreSettings()
 		{
 			SoomlaEditorScript.addSettings(instance);
+
+			SoomlaEditorScript.addFileList("Core", "Assets/Soomla/core_file_list", new string[]{});
 		}
 
 //		GUIContent emptyContent = new GUIContent("");
@@ -59,8 +62,8 @@ namespace Soomla
 
 		public void OnInfoGUI() {
 			EditorGUILayout.HelpBox("SOOMLA Framework Info", MessageType.None);
-			SoomlaEditorScript.SelectableLabelField(frameworkVersion, currentModuleVersion);
-			SoomlaEditorScript.LatestVersionField ("unity3d-core", currentModuleVersion, "New Core version available!", "http://library.soom.la/fetch/unity3d-core/latest?cf=unity");
+			SoomlaEditorScript.RemoveSoomlaModuleButton(frameworkVersion, currentModuleVersion, "Core");
+			SoomlaEditorScript.LatestVersionField ("unity3d-core", currentModuleVersion, "New version available!", "http://library.soom.la/fetch/unity3d-core/latest?cf=unity");
 			EditorGUILayout.Space();
 		}
 
