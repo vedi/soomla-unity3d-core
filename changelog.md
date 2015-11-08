@@ -1,3 +1,13 @@
+### v1.2.0 [view commit logs](https://github.com/soomla/soomla-unity3d-core/compare/v1.1.0...v1.2.0)
+
+* Features
+  * Added checking for latest version in Soomla Settings panel
+  * Added "Remove Soomla" to Soomla menu
+  * Added a new way of event handling without prefabs
+
+* Changes
+  * Moved all SOOMLA plugins into 'Soomla' folders
+
 ### v1.1.0 [view commit logs](https://github.com/soomla/soomla-unity3d-core/compare/v1.0.12...v1.1.0)
 
 * New Features
