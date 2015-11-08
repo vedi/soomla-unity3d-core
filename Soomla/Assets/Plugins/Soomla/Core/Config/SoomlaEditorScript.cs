@@ -214,12 +214,6 @@ namespace Soomla
 			AssetDatabase.Refresh();
 		}
 
-		private static void RemoveFiles(string[] files){
-			foreach (string file in files){
-				FileUtil.DeleteFileOrDirectory(file);
-			}
-		}
-
         public static void LatestVersionField(string moduleId, string currentVersion, string versionPrompt, string downloadLink)
 		{
 			string latestVersion = "";
