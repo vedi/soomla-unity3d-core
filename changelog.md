@@ -1,3 +1,8 @@
+### v1.2.1 [view commit logs](https://github.com/soomla/soomla-unity3d-core/compare/v1.2.0...v1.2.1)
+
+* Changes
+  * Minor improvements to Editor script
+
 ### v1.2.0 [view commit logs](https://github.com/soomla/soomla-unity3d-core/compare/v1.1.0...v1.2.0)
 
 * Features
