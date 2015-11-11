@@ -3,12 +3,18 @@ language: objective-c
 # rvm:
 # - 2.1.2
 install:
-    - echo 'Downloading from http://netstorage.unity3d.com/unity/3757309da7e7/MacEditorInstaller/Unity-5.2.2f1.pkg:'
-    - curl -o Unity.pkg http://netstorage.unity3d.com/unity/3757309da7e7/MacEditorInstaller/Unity-5.2.2f1.pkg
-    - echo 'Installing Unity.pkg'
-    - sudo installer -dumplog -package Unity.pkg -target /
+    - curl -o android-sdk.zip http://dl.google.com/android/android-sdk_r24.4.1-macosx.zip
+    - unzip android-sdk.zip
+    - export ANDROID_HOME=$PWD/android-sdk-macosx
+    - export PATH=$PATH:$ANDROID_HOME/tools
+    - export PATH=$PATH:$ANDROID_HOME/platform-tools
+    - android update sdk --no-ui --filter 1,2,4
+    - ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    - brew install ant
+    # - curl -o Unity.pkg http://netstorage.unity3d.com/unity/3757309da7e7/MacEditorInstaller/Unity-5.2.2f1.pkg
+    # - sudo installer -dumplog -package Unity.pkg -target /
 script:
     - ./submodules/build_all
     - ./soomla-native/projects/unity-soomla-android-core/build_all
     - ./soomla-native/projects/unity-soomla-ios-core/build_all
-    - ./deploy/create_deploys
+    # - ./deploy/create_deploys
