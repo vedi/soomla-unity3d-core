@@ -15,3 +15,4 @@ script:
     - ./soomla-native/projects/unity-soomla-android-core/build_all
     - ./soomla-native/projects/unity-soomla-ios-core/build_all
     - ./deploy/create_deploys
+    - cat deploy/create_unity.log
