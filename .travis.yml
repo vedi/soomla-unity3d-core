@@ -8,6 +8,7 @@ install:
     - export ANDROID_HOME=$PWD/android-sdk-macosx
     - export PATH=$PATH:$ANDROID_HOME/tools
     - export PATH=$PATH:$ANDROID_HOME/platform-tools
+    - export JAVA_HOME=$(/usr/libexec/java_home)
     - echo "y" | android update sdk --no-ui --filter tool,platform-tool,android-23
     - brew install ant
     # - curl -o Unity.pkg http://netstorage.unity3d.com/unity/3757309da7e7/MacEditorInstaller/Unity-5.2.2f1.pkg
