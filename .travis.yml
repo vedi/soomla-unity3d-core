@@ -1,0 +1,14 @@
+language: objective-c
+# osx_image: xcode61
+# rvm:
+# - 2.1.2
+install:
+    - echo 'Downloading from http://netstorage.unity3d.com/unity/3757309da7e7/MacEditorInstaller/Unity-5.2.2f1.pkg:'
+    - curl -o Unity.pkg http://netstorage.unity3d.com/unity/3757309da7e7/MacEditorInstaller/Unity-5.2.2f1.pkg
+    - echo 'Installing Unity.pkg'
+    - sudo installer -dumplog -package Unity.pkg -target /
+script:
+    - ./submodules/build_all
+    - ./soomla-native/projects/unity-soomla-android-core/build_all
+    - ./soomla-native/projects/unity-soomla-ios-core/build_all
+    - ./deploy/create_deploys
