@@ -2,7 +2,7 @@
 
 soomla-unity3d-core
 ===============
-The core module is currently included inside the [unity3d-store](https://github.com/soomla/unity3d-store) module.  When importing the *unity3d-store* package, add the `CoreEvents` prefab to your earliest loading scene.  This will ensure the core module is initialized, no need to add any code.  This core library holds common features and utilities used by all other modules of the SOOMLA framework.
+The core module is currently included inside the [unity3d-store](https://github.com/soomla/unity3d-store) module. This core library holds common features and utilities used by all other modules of the SOOMLA framework.
 
 It includes:
 * Native bridges for on-device storage.
