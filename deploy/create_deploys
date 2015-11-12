@@ -13,6 +13,7 @@ echo "creating unitypackage for SOOMLA Core"
 
 /Applications/Unity/Unity.app/Contents/MacOS/Unity \
   -batchmode \
+  -nographics \
   -logFile create_unity.log \
   -projectPath $PWD/../Soomla/ \
   -exportPackage \
