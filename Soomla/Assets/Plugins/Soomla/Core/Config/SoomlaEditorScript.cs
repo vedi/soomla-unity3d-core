@@ -91,7 +91,7 @@ namespace Soomla
 #if UNITY_4
 					string placeHolder = "WP8/Soomla/Placeholder";
 					if(line.Contains(placeHolder)){
-						line.Remove(line.IndexOf(placeHolder), line.LastIndexOf(placeHolder));
+						line = line.Replace(placeHolder, "");
 					}
 					foldersFiles.Add(line);
 #endif
