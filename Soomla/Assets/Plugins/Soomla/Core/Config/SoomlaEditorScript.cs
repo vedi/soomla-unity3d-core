@@ -133,6 +133,10 @@ namespace Soomla
 		[MenuItem("Window/Soomla/Remove Soomla")]
 		public static void Remove() 
 		{
+			string fullPath = Path.Combine(Path.Combine("Assets", soomSettingsPath),
+			                               soomSettingsAssetName + soomSettingsAssetExtension);
+			AssetDatabase.DeleteAsset (fullPath);
+			SoomlaManifestTools.ClearManifest( );
 			if (EditorUtility.DisplayDialog("Confirmation", "Are you sure you want to remove SOOMLA?", "Yes", "No")) {
 				foreach (KeyValuePair<string, string[]> attachStat in mFileList) {
 					RemoveModule(attachStat.Value);
