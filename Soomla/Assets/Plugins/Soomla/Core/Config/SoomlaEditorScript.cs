@@ -91,7 +91,7 @@ namespace Soomla
 #if UNITY_4
 					string placeHolder = "WP8/Soomla/Placeholder";
 					if(line.Contains(placeHolder)){
-						line.Remove(line.IndexOf(placeHolder), line.LastIndexOf(placeHolder));
+						line = line.Replace(placeHolder, "");
 					}
 					foldersFiles.Add(line);
 #endif
@@ -107,17 +107,49 @@ namespace Soomla
 			}
 		}
 
+		#if UNITY_4_5 || UNITY_4_6
+		private static bool showIOSSettings = (EditorUserBuildSettings.activeBuildTarget == BuildTarget.iPhone);
+		#else
+		private static bool showIOSSettings = (EditorUserBuildSettings.activeBuildTarget == BuildTarget.iOS);
+		#endif
+		private static bool showWP8Settings = (EditorUserBuildSettings.activeBuildTarget == BuildTarget.WP8Player);
+		private static bool showAndroidSettings = (EditorUserBuildSettings.activeBuildTarget == BuildTarget.Android);
+
 		public static void OnInspectorGUI() {
 			foreach(ISoomlaSettings settings in mSoomlaSettings) {
 				settings.OnSoomlaGUI();
 				EditorGUILayout.Space();
 			}
+
 			EditorGUILayout.Space();
 			EditorGUILayout.Space();
-			foreach(ISoomlaSettings settings in mSoomlaSettings) {
-				settings.OnModuleGUI();
+
+			foreach (ISoomlaSettings settings in mSoomlaSettings) {
+				settings.OnModuleGUI ();
 			}
+
 			EditorGUILayout.Space();
+			EditorGUILayout.Space();
+
+			showAndroidSettings = EditorGUILayout.Foldout(showAndroidSettings, "Android Settings");
+			foreach (ISoomlaSettings settings in mSoomlaSettings) {
+				if (showAndroidSettings)
+					settings.OnAndroidGUI ();
+			}
+			showIOSSettings = EditorGUILayout.Foldout(showIOSSettings, "iOS Settings");
+			foreach (ISoomlaSettings settings in mSoomlaSettings) {
+				if (showIOSSettings)
+					settings.OnIOSGUI ();
+			}
+            showWP8Settings = EditorGUILayout.Foldout(showWP8Settings, "WP8 Settings");
+			foreach (ISoomlaSettings settings in mSoomlaSettings) {
+				if (showWP8Settings)
+					settings.OnWP8GUI ();
+			}
+
+			EditorGUILayout.Space();
+			EditorGUILayout.Space();
+			
 			foreach(ISoomlaSettings settings in mSoomlaSettings) {
 				settings.OnInfoGUI();
 				EditorGUILayout.Space();
@@ -133,6 +165,10 @@ namespace Soomla
 		[MenuItem("Window/Soomla/Remove Soomla")]
 		public static void Remove() 
 		{
+			string fullPath = Path.Combine(Path.Combine("Assets", soomSettingsPath),
+			                               soomSettingsAssetName + soomSettingsAssetExtension);
+			AssetDatabase.DeleteAsset (fullPath);
+			SoomlaManifestTools.ClearManifest( );
 			if (EditorUtility.DisplayDialog("Confirmation", "Are you sure you want to remove SOOMLA?", "Yes", "No")) {
 				foreach (KeyValuePair<string, string[]> attachStat in mFileList) {
 					RemoveModule(attachStat.Value);
