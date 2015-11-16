@@ -281,6 +281,7 @@ namespace Soomla
 			style.normal.textColor = Color.blue;
 			if (GUILayout.Button("Remove", style, GUILayout.Width(60), FieldHeight)) {
 				if (EditorUtility.DisplayDialog("Confirmation", "Are you sure you want to delete " + moduleId + " ?", "Yes", "No")) {
+					SoomlaManifestTools.ClearManifest(moduleId);
 					RemoveModule(mFileList[moduleId]);
 				}
 			}

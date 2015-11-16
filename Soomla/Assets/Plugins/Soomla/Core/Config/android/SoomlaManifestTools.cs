@@ -101,12 +101,49 @@ namespace Soomla
 				XmlElement applicationElement = FindChildElement(_manifestNode, "application");
 				applicationElement.RemoveAttribute("name", _namespace);
 				
-
-				
 				_document.Save(fullPath);
 			}
 
 
+		}
+
+		public static void ClearManifest(string moduleId) {
+			var fullPath = Path.Combine(Application.dataPath, "Plugins/Android/AndroidManifest.xml");
+			if (File.Exists(fullPath))
+			{
+				_document = new XmlDocument();
+				_document.Load(fullPath);
+				
+				if (_document == null)
+				{
+					Debug.LogError("Couldn't load " + fullPath);
+					return;
+				}
+				
+				_manifestNode = FindChildNode(_document, "manifest");
+				_namespace = _manifestNode.GetNamespaceOfPrefix("android");
+				_applicationNode = FindChildNode(_manifestNode, "application");
+				
+				if (_applicationNode == null) {
+					Debug.LogError("Error parsing " + fullPath);
+					return;
+				}
+				
+				SetPermission("android.permission.INTERNET");
+				
+				
+				foreach(ISoomlaManifestTools manifestTool in ManTools) {
+					if(manifestTool.GetType().ToString().Contains( moduleId ) ){
+						manifestTool.ClearManifest();
+					}
+				}
+				
+				XmlElement applicationElement = FindChildElement(_manifestNode, "application");
+				
+				_document.Save(fullPath);
+			}
+			
+			
 		}
 
 		public static void AddActivity(string activityName, Dictionary<string, string> attributes) {
