@@ -60,6 +60,18 @@ namespace Soomla
 
 		}
 
+		public void OnAndroidGUI() {
+
+		}
+
+		public void OnIOSGUI(){
+
+		}
+
+		public void OnWP8GUI(){
+
+		}
+
 		public void OnInfoGUI() {
 			EditorGUILayout.HelpBox("SOOMLA Framework Info", MessageType.None);
 			SoomlaEditorScript.RemoveSoomlaModuleButton(frameworkVersion, currentModuleVersion, "Core");
