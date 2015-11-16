@@ -44,6 +44,15 @@ namespace Soomla
 		{
 			SoomlaEditorScript.addSettings(instance);
 
+#if UNITY_4
+			foreach (string fPath in System.IO.Directory.GetFiles("Assets/Plugins/WP8/Soomla/Placeholder")) {
+				if(!fPath.Contains(".meta")){
+					FileUtil.MoveFileOrDirectory(fPath, fPath.Replace("WP8/Soomla/Placeholder",""));
+				}
+				AssetDatabase.Refresh();
+			}
+#endif
+
 			SoomlaEditorScript.addFileList("Core", "Assets/Soomla/core_file_list", new string[]{});
 		}
 
@@ -57,6 +66,18 @@ namespace Soomla
 		}
 
 		public void OnModuleGUI() {
+
+		}
+
+		public void OnAndroidGUI() {
+
+		}
+
+		public void OnIOSGUI(){
+
+		}
+
+		public void OnWP8GUI(){
 
 		}
 
