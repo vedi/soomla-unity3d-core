@@ -13,7 +13,7 @@ namespace Soomla
 	public class SoomlaManifestTools
     {
 #if UNITY_EDITOR
-		static string outputFile = Path.Combine(Application.dataPath, "Plugins/Android/AndroidManifest.xml");
+	static string outputFile = Path.Combine(Application.dataPath, "Plugins/Android/AndroidManifest.xml");
         public static void GenerateManifest()
         {
             // only copy over a fresh copy of the AndroidManifest if one does not exist
