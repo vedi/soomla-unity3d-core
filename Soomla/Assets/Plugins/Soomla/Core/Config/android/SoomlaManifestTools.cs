@@ -11,23 +11,24 @@ using System.Collections.Generic;
 namespace Soomla
 {
 	public class SoomlaManifestTools
-    {
+	{
 #if UNITY_EDITOR
 	static string outputFile = Path.Combine(Application.dataPath, "Plugins/Android/AndroidManifest.xml");
-        public static void GenerateManifest()
-        {
-            // only copy over a fresh copy of the AndroidManifest if one does not exist
-            if (!File.Exists(outputFile))
-            {
+	public static void GenerateManifest()
+	{
+		// only copy over a fresh copy of the AndroidManifest if one does not exist
+		if (!File.Exists(outputFile))
+		{
 #if UNITY_4_5 || UNITY_4_6 || UNITY_5_0 || UNITY_5_1
-                var inputFile = Path.Combine(EditorApplication.applicationContentsPath, "PlaybackEngines/androidplayer/AndroidManifest.xml");
+		var inputFile = Path.Combine(EditorApplication.applicationContentsPath, "PlaybackEngines/androidplayer/AndroidManifest.xml");
 #else
-				var inputFile = Path.Combine(EditorApplication.applicationContentsPath, "PlaybackEngines/androidplayer/Apk/AndroidManifest.xml");
+		var inputFile = Path.Combine(EditorApplication.applicationContentsPath, "PlaybackEngines/androidplayer/Apk/AndroidManifest.xml");
 #endif
-                File.Copy(inputFile, outputFile);
-            }
-            UpdateManifest();
-        }
+		File.Copy(inputFile, outputFile);
+	}
+		UpdateManifest();
+	}
+
 		private static string _namespace = "";
 		private static XmlDocument _document = null;
 		private static XmlNode _manifestNode = null;
@@ -65,7 +66,6 @@ namespace Soomla
 
 			XmlElement applicationElement = FindChildElement(_manifestNode, "application");
 			applicationElement.SetAttribute("name", _namespace, "com.soomla.SoomlaApp");
-
 
 			foreach(ISoomlaManifestTools manifestTool in ManTools) {
 				manifestTool.UpdateManifest();
