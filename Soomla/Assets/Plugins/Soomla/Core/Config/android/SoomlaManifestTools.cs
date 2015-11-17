@@ -54,7 +54,7 @@ namespace Soomla
 			}
 		}
 
-		public static void SaveManifest(){
+		private static void SaveManifest(){
 			_document.Save(outputFile);
 		}
 
