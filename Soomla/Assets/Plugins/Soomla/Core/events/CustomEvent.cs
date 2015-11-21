@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -7,25 +7,25 @@ namespace Soomla
 	public class CustomEvent : SoomlaEvent
 	{
 		private string mName;
-		private Dictionary<string, string> mExtra;
+		private Dictionary<String, String> mExtra;
 
-        public CustomEvent(string name, Dictionary<string, string> extra) : this(name, extra, null)
+		public CustomEvent(String name, Dictionary<String, String> extra) : this(name, extra, null)
         {
             
         }
 
-        public CustomEvent (string name, Dictionary<string, string> extra, Object sender): base(sender)
+		public CustomEvent (String name, Dictionary<String, String> extra, Object sender): base(sender)
 		{
 			mName = name;
 			mExtra = extra;
 		}
 	
-		public string GetName ()
+		public String GetName ()
 		{
 			return mName;
 		}
 	
-		public Dictionary<string, string> GetExtra ()
+		public Dictionary<String, String> GetExtra ()
 		{
 			return mExtra;
 		}

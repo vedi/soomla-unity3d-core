@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿using System;
 using System.Collections;
 
 namespace Soomla
@@ -7,24 +7,24 @@ namespace Soomla
 	{
 		public readonly Reward mReward;
 
-		public RewardTakenEvent (string rewardId) : this(rewardId, null)
+		public RewardTakenEvent (String rewardId) : this(rewardId, null)
 		{
 
 		}
 
 		public RewardTakenEvent (Reward reward) : this(reward, null)
-        {
+		{
 
 		}
 
-        public RewardTakenEvent(string rewardId, Object sender) : base(sender)
-        {
-            mReward = Reward.GetReward(rewardId);
-        }
+		public RewardTakenEvent (String rewardId, Object sender) : base(sender)
+		{
+			mReward = Reward.GetReward (rewardId);
+		}
 
-        public RewardTakenEvent(Reward reward, Object sender) : base(sender)
-        {
-            mReward = reward;
-        }
-    }
+		public RewardTakenEvent (Reward reward, Object sender) : base(sender)
+		{
+			mReward = reward;
+		}
+	}
 }
