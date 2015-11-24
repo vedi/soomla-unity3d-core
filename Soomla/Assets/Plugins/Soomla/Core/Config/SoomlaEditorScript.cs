@@ -296,13 +296,14 @@ namespace Soomla
 			EditorGUILayout.EndHorizontal();
 		}
 
-		public static void SetConfigValue(string key, string value) {
-			PlayerPrefs.SetString(key ,value);
+		public static void SetConfigValue(string prefix, string key, string value) {
+			PlayerPrefs.SetString(prefix + "." + key ,value);
 			PlayerPrefs.Save();
 		}
 
-		public static string GetConfigValue(string key) {
-			return PlayerPrefs.GetString(key);
+		public static string GetConfigValue(string prefix, string key) {
+			string value = PlayerPrefs.GetString(prefix + "." + key);
+			return value.Length > 0 ? value : null;
 		}
 #endif
 	}
