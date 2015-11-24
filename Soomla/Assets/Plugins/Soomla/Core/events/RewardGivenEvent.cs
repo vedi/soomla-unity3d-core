@@ -5,7 +5,7 @@ namespace Soomla
 {
 	public class RewardGivenEvent : SoomlaEvent
 	{
-		public readonly Reward reward;
+		public readonly Reward Reward;
 
 		public RewardGivenEvent (string rewardId) : this(rewardId, null)
 		{
@@ -19,12 +19,12 @@ namespace Soomla
 
 		public RewardGivenEvent (string rewardId, Object sender) : base(sender)
 		{
-			reward = Reward.GetReward (rewardId);
+			this.Reward = Reward.GetReward (rewardId);
 		}
 
 		public RewardGivenEvent (Reward reward, Object sender) : base(sender)
 		{
-			this.reward = reward;
+			this.Reward = reward;
 		}
 	}
 }

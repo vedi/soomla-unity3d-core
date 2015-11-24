@@ -6,8 +6,8 @@ namespace Soomla
 {
 	public class CustomEvent : SoomlaEvent
 	{
-		private string mName;
-		private Dictionary<String, String> mExtra;
+		private string Name;
+		private Dictionary<String, String> Extra;
 
 		public CustomEvent(String name, Dictionary<String, String> extra) : this(name, extra, null)
         {
@@ -16,18 +16,18 @@ namespace Soomla
 
 		public CustomEvent (String name, Dictionary<String, String> extra, Object sender): base(sender)
 		{
-			mName = name;
-			mExtra = extra;
+			this.Name = name;
+			this.Extra = extra;
 		}
 	
 		public String GetName ()
 		{
-			return mName;
+			return this.Name;
 		}
 	
 		public Dictionary<String, String> GetExtra ()
 		{
-			return mExtra;
+			return this.Extra;
 		}
 	}
 }
