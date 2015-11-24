@@ -36,7 +36,7 @@ namespace Soomla
 #if UNITY_EDITOR
 		public static string DB_KEY_PREFIX = "soomla.";
 
-		private static string CoreSettingsPrefix = "Soomla.Core";
+		private static string CoreModulePrefix = "Core";
 
 		static CoreSettings instance = new CoreSettings();
 
@@ -144,15 +144,15 @@ namespace Soomla
 		public static string SoomlaSecret
 		{
 			get {
-				string value = SoomlaEditorScript.GetConfigValue(CoreSettingsPrefix, "SoomlaSecret");
+				string value = SoomlaEditorScript.GetConfigValue(CoreModulePrefix, "SoomlaSecret");
 				return value != null ? value : ONLY_ONCE_DEFAULT;
 			}
 			set
 			{
-				string v = SoomlaEditorScript.GetConfigValue(CoreSettingsPrefix, "SoomlaSecret");
+				string v = SoomlaEditorScript.GetConfigValue(CoreModulePrefix, "SoomlaSecret");
 				if (v != value)
 				{
-					SoomlaEditorScript.SetConfigValue(CoreSettingsPrefix, "SoomlaSecret", value.ToString());
+					SoomlaEditorScript.SetConfigValue(CoreModulePrefix, "SoomlaSecret", value.ToString());
 					SoomlaEditorScript.DirtyEditor ();
 				}
 			}
@@ -161,15 +161,15 @@ namespace Soomla
 		public static bool DebugMessages
 		{
 			get {
-				string value = SoomlaEditorScript.GetConfigValue(CoreSettingsPrefix, "DebugMessages");
+				string value = SoomlaEditorScript.GetConfigValue(CoreModulePrefix, "DebugMessages");
 				return value != null ? Convert.ToBoolean(value) : false;
 			}
 			set
 			{
-				string v = SoomlaEditorScript.GetConfigValue(CoreSettingsPrefix, "DebugMessages");
+				string v = SoomlaEditorScript.GetConfigValue(CoreModulePrefix, "DebugMessages");
 				if (Convert.ToBoolean(v) != value)
 				{
-					SoomlaEditorScript.SetConfigValue(CoreSettingsPrefix, "DebugMessages", value.ToString());
+					SoomlaEditorScript.SetConfigValue(CoreModulePrefix, "DebugMessages", value.ToString());
 					SoomlaEditorScript.DirtyEditor();
 				}
 			}
@@ -178,15 +178,15 @@ namespace Soomla
 		public static bool DebugUnityMessages
 		{
 			get {
-				string value = SoomlaEditorScript.GetConfigValue(CoreSettingsPrefix, "DebugUnityMessages");
+				string value = SoomlaEditorScript.GetConfigValue(CoreModulePrefix, "DebugUnityMessages");
 				return value != null ? Convert.ToBoolean(value) : true;
 			}
 			set
 			{
-				string v = SoomlaEditorScript.GetConfigValue(CoreSettingsPrefix, "DebugUnityMessages");
+				string v = SoomlaEditorScript.GetConfigValue(CoreModulePrefix, "DebugUnityMessages");
 				if (Convert.ToBoolean(v) != value)
 				{
-					SoomlaEditorScript.SetConfigValue(CoreSettingsPrefix, "DebugUnityMessages", value.ToString());
+					SoomlaEditorScript.SetConfigValue(CoreModulePrefix, "DebugUnityMessages", value.ToString());
 					SoomlaEditorScript.DirtyEditor();
 				}
 			}
