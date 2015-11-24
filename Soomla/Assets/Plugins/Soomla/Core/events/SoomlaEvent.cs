@@ -10,9 +10,9 @@ namespace Soomla
         	public readonly String Payload
 
         	public SoomlaEvent() { }
-        	public SoomlaEvent(Object sender)
-        	{
-			Sender = sender;
+        	public SoomlaEvent(Object sender) : this(sender, "")
+        	{ 
+        		
         	}
 		public SoomlaEvent(Object sender, String payload)
         	{
