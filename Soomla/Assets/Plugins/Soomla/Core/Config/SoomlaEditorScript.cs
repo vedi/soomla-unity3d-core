@@ -296,6 +296,15 @@ namespace Soomla
 			EditorGUILayout.EndHorizontal();
 		}
 
+		public static void SetConfigValue(string key, string value) {
+			PlayerPrefs.SetString(key ,value);
+			PlayerPrefs.Save();
+		}
+
+		public static string GetConfigValue(string key) {
+			return PlayerPrefs.GetString(key);
+		}
 #endif
+}
 	}
 }
