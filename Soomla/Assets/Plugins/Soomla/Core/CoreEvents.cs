@@ -101,7 +101,8 @@ namespace Soomla {
 			JSONObject eventJSON = new JSONObject(message);
 			string rewardId = eventJSON["rewardId"].str;
 
-			CoreEvents.OnRewardGiven(new RewardGivenEvent(rewardId));
+			CoreEvents.OnRewardGiven(Reward.GetReward(rewardId));
+			//CoreEvents.OnRewardGiven(new RewardGivenEvent(rewardId));
 		}
 
 		/// <summary>
@@ -114,7 +115,8 @@ namespace Soomla {
 			JSONObject eventJSON = new JSONObject(message);
 			string rewardId = eventJSON["rewardId"].str;
 			
-			CoreEvents.OnRewardTaken(new RewardTakenEvent(rewardId));
+			CoreEvents.OnRewardTaken(Reward.GetReward(rewardId));
+			//CoreEvents.OnRewardTaken(new RewardTakenEvent(rewardId));
 		}
 
 		/// <summary>
@@ -127,14 +129,20 @@ namespace Soomla {
 			string name = eventJSON["name"].str;
 			Dictionary<string, string> extra = eventJSON["extra"].ToDictionary();
 
-			CoreEvents.OnCustomEvent(new CustomEvent(name, extra));
+			CoreEvents.OnCustomEvent(name, extra);
+			//CoreEvents.OnCustomEvent(new CustomEvent(name, extra));
 		}
 
 		public delegate void Action();
 
-		public static Action<RewardGivenEvent> OnRewardGiven = delegate {};
-		public static Action<RewardTakenEvent> OnRewardTaken = delegate {};
-		public static Action<CustomEvent> OnCustomEvent = delegate {};
+		//public static Action<RewardGivenEvent> OnRewardGiven = delegate {};
+		public static Action<Reward> OnRewardGiven = delegate {};
+		//public static Action<RewardTakenEvent> OnRewardTaken = delegate {};
+		public static Action<Reward> OnRewardTaken = delegate {};
+		//public static Action<CustomEvent> OnCustomEvent = delegate {};
+		public static Action<string, Dictionary<string, string>> OnCustomEvent = delegate {};
+
+
 
 	}
 }
