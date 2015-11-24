@@ -33,10 +33,10 @@ namespace Soomla
 	public class CoreSettings : ISoomlaSettings
 	{
 
+		private static string CoreModulePrefix = "Core";
+
 #if UNITY_EDITOR
 		public static string DB_KEY_PREFIX = "soomla.";
-
-		private static string CoreModulePrefix = "Core";
 
 		static CoreSettings instance = new CoreSettings();
 
