@@ -46,7 +46,7 @@ namespace Soomla
 			{
 				if (instance == null)
 				{
-	instance = Resources.Load(soomSettingsAssetName) as SoomlaEditorScript;
+					instance = Resources.Load(soomSettingsAssetName) as SoomlaEditorScript;
 
 					if (instance == null)
 					{
@@ -199,7 +199,11 @@ namespace Soomla
 #endif
 		}
 
-		/** SOOMLA Core UI **/
+		[SerializeField]
+		public ObjectDictionary SoomlaSettings = new ObjectDictionary();
+
+
+	/** SOOMLA Core UI **/
 #if UNITY_EDITOR
 		public static GUILayoutOption FieldHeight = GUILayout.Height(16);
 		public static GUILayoutOption FieldWidth = GUILayout.Width(120);
@@ -287,13 +291,20 @@ namespace Soomla
 		}
 #endif
 		public static void SetConfigValue(string prefix, string key, string value) {
-			PlayerPrefs.SetString("Soomla." + prefix + "." + key ,value);
+			PlayerPrefs.SetString("Soomla." + prefix + "." + key, value);
+			Instance.SoomlaSettings["Soomla." + prefix + "." + key] = value;
 			PlayerPrefs.Save();
 		}
 
 		public static string GetConfigValue(string prefix, string key) {
-			string value = PlayerPrefs.GetString("Soomla." + prefix + "." + key);
-			return value.Length > 0 ? value : null;
+			string value;
+			if (Instance.SoomlaSettings.TryGetValue("Soomla." + prefix + "." + key, out value) && value.Length > 0) {
+				return value;
+			} else {
+				value = PlayerPrefs.GetString("Soomla." + prefix + "." + key);
+				SetConfigValue(prefix, key, value);
+				return value.Length > 0 ? value : null;
+			}
 		}
 	}
 }
