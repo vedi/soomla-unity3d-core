@@ -199,16 +199,6 @@ namespace Soomla
 #endif
 		}
 
-		[SerializeField]
-		public ObjectDictionary SoomlaSettings = new ObjectDictionary();
-
-		public void setSettingsValue(string key, string value) {
-			SoomlaSettings[key] = value;
-		}
-
-
-
-
 		/** SOOMLA Core UI **/
 #if UNITY_EDITOR
 		public static GUILayoutOption FieldHeight = GUILayout.Height(16);
@@ -297,12 +287,12 @@ namespace Soomla
 		}
 
 		public static void SetConfigValue(string prefix, string key, string value) {
-			PlayerPrefs.SetString(prefix + "." + key ,value);
+			PlayerPrefs.SetString("Soomla." + prefix + "." + key ,value);
 			PlayerPrefs.Save();
 		}
 
 		public static string GetConfigValue(string prefix, string key) {
-			string value = PlayerPrefs.GetString(prefix + "." + key);
+			string value = PlayerPrefs.GetString("Soomla." + prefix + "." + key);
 			return value.Length > 0 ? value : null;
 		}
 #endif
