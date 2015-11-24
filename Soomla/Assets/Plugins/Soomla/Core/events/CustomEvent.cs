@@ -10,9 +10,9 @@ namespace Soomla
 		private Dictionary<String, String> Extra;
 
 		public CustomEvent(String name, Dictionary<String, String> extra) : this(name, extra, null)
-        {
+		{
             
-        }
+		}
 
 		public CustomEvent (String name, Dictionary<String, String> extra, Object sender): base(sender)
 		{
@@ -24,7 +24,7 @@ namespace Soomla
 		{
 			return this.Name;
 		}
-	
+
 		public Dictionary<String, String> GetExtra ()
 		{
 			return this.Extra;
