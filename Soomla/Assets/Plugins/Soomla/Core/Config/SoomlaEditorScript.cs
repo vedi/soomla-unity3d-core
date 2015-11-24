@@ -285,7 +285,7 @@ namespace Soomla
 			EditorGUILayout.SelectableLabel(value, FieldHeight);
 			EditorGUILayout.EndHorizontal();
 		}
-
+#endif
 		public static void SetConfigValue(string prefix, string key, string value) {
 			PlayerPrefs.SetString("Soomla." + prefix + "." + key ,value);
 			PlayerPrefs.Save();
@@ -295,6 +295,5 @@ namespace Soomla
 			string value = PlayerPrefs.GetString("Soomla." + prefix + "." + key);
 			return value.Length > 0 ? value : null;
 		}
-#endif
 	}
 }
