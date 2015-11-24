@@ -36,6 +36,8 @@ namespace Soomla
 #if UNITY_EDITOR
 		public static string DB_KEY_PREFIX = "soomla.";
 
+		private static string CoreSettingsPrefix = "Soomla.Core.";
+
 		static CoreSettings instance = new CoreSettings();
 
 		static string currentModuleVersion = "1.2.1";
@@ -142,16 +144,15 @@ namespace Soomla
 		public static string SoomlaSecret
 		{
 			get {
-				string value;
-				return SoomlaEditorScript.Instance.SoomlaSettings.TryGetValue("SoomlaSecret", out value) ? value : ONLY_ONCE_DEFAULT;
+				string value = SoomlaEditorScript.GetConfigValue(CoreSettingsPrefix + "SoomlaSecret");
+				return value != null ? value : ONLY_ONCE_DEFAULT;
 			}
 			set
 			{
-				string v;
-				SoomlaEditorScript.Instance.SoomlaSettings.TryGetValue("SoomlaSecret", out v);
+				string v = SoomlaEditorScript.GetConfigValue(CoreSettingsPrefix + "SoomlaSecret");
 				if (v != value)
 				{
-					SoomlaEditorScript.Instance.setSettingsValue("SoomlaSecret",value);
+					SoomlaEditorScript.SetConfigValue(CoreSettingsPrefix + "SoomlaSecret", value.ToString());
 					SoomlaEditorScript.DirtyEditor ();
 				}
 			}
@@ -160,16 +161,15 @@ namespace Soomla
 		public static bool DebugMessages
 		{
 			get {
-				string value;
-				return SoomlaEditorScript.Instance.SoomlaSettings.TryGetValue("DebugMessages", out value) ? Convert.ToBoolean(value) : false;
+				string value = SoomlaEditorScript.GetConfigValue(CoreSettingsPrefix + "DebugMessages");
+				return value != null ? Convert.ToBoolean(value) : false;
 			}
 			set
 			{
-				string v;
-				SoomlaEditorScript.Instance.SoomlaSettings.TryGetValue("DebugMessages", out v);
+				string v = SoomlaEditorScript.GetConfigValue(CoreSettingsPrefix + "DebugMessages");
 				if (Convert.ToBoolean(v) != value)
 				{
-					SoomlaEditorScript.Instance.setSettingsValue("DebugMessages",value.ToString());
+					SoomlaEditorScript.SetConfigValue(CoreSettingsPrefix + "DebugMessages", value.ToString());
 					SoomlaEditorScript.DirtyEditor();
 				}
 			}
@@ -178,16 +178,15 @@ namespace Soomla
 		public static bool DebugUnityMessages
 		{
 			get {
-				string value;
-				return SoomlaEditorScript.Instance.SoomlaSettings.TryGetValue("DebugUnityMessages", out value) ? Convert.ToBoolean(value) : true;
+				string value = SoomlaEditorScript.GetConfigValue(CoreSettingsPrefix + "DebugUnityMessages");
+				return value != null ? Convert.ToBoolean(value) : true;
 			}
 			set
 			{
-				string v;
-				SoomlaEditorScript.Instance.SoomlaSettings.TryGetValue("DebugUnityMessages", out v);
+				string v = SoomlaEditorScript.GetConfigValue(CoreSettingsPrefix + "DebugUnityMessages");
 				if (Convert.ToBoolean(v) != value)
 				{
-					SoomlaEditorScript.Instance.setSettingsValue("DebugUnityMessages",value.ToString());
+					SoomlaEditorScript.SetConfigValue(CoreSettingsPrefix + "DebugUnityMessages", value.ToString());
 					SoomlaEditorScript.DirtyEditor();
 				}
 			}
