@@ -46,7 +46,7 @@ namespace Soomla
 			{
 				if (instance == null)
 				{
-	instance = Resources.Load(soomSettingsAssetName) as SoomlaEditorScript;
+					instance = Resources.Load(soomSettingsAssetName) as SoomlaEditorScript;
 
 					if (instance == null)
 					{
@@ -73,7 +73,7 @@ namespace Soomla
 
 		private static List<ISoomlaSettings> mSoomlaSettings = new List<ISoomlaSettings>();
 		private static Dictionary<string, string[]>mFileList = new Dictionary<string, string[]>();
-		
+
 		public static void addSettings(ISoomlaSettings spp) {
 			mSoomlaSettings.Add(spp);
 		}
@@ -149,7 +149,7 @@ namespace Soomla
 
 			EditorGUILayout.Space();
 			EditorGUILayout.Space();
-			
+
 			foreach(ISoomlaSettings settings in mSoomlaSettings) {
 				settings.OnInfoGUI();
 				EditorGUILayout.Space();
@@ -163,7 +163,7 @@ namespace Soomla
 		}
 
 		[MenuItem("Window/Soomla/Remove Soomla")]
-		public static void Remove() 
+		public static void Remove()
 		{
 			string fullPath = Path.Combine(Path.Combine("Assets", soomSettingsPath),
 			                               soomSettingsAssetName + soomSettingsAssetExtension);
@@ -202,14 +202,8 @@ namespace Soomla
 		[SerializeField]
 		public ObjectDictionary SoomlaSettings = new ObjectDictionary();
 
-		public void setSettingsValue(string key, string value) {
-			SoomlaSettings[key] = value;
-		}
 
-
-
-
-		/** SOOMLA Core UI **/
+	/** SOOMLA Core UI **/
 #if UNITY_EDITOR
 		public static GUILayoutOption FieldHeight = GUILayout.Height(16);
 		public static GUILayoutOption FieldWidth = GUILayout.Width(120);
@@ -276,7 +270,7 @@ namespace Soomla
 			EditorGUILayout.BeginHorizontal();
 			EditorGUILayout.LabelField(label, GUILayout.Width(140), FieldHeight);
 			EditorGUILayout.SelectableLabel(value, GUILayout.Width(40), FieldHeight);
-			
+
 			GUIStyle style = new GUIStyle(GUI.skin.label);
 			style.normal.textColor = Color.blue;
 			if (GUILayout.Button("Remove", style, GUILayout.Width(60), FieldHeight)) {
@@ -295,7 +289,22 @@ namespace Soomla
 			EditorGUILayout.SelectableLabel(value, FieldHeight);
 			EditorGUILayout.EndHorizontal();
 		}
-
 #endif
+		public static void SetConfigValue(string prefix, string key, string value) {
+			PlayerPrefs.SetString("Soomla." + prefix + "." + key, value);
+			Instance.SoomlaSettings["Soomla." + prefix + "." + key] = value;
+			PlayerPrefs.Save();
+		}
+
+		public static string GetConfigValue(string prefix, string key) {
+			string value;
+			if (Instance.SoomlaSettings.TryGetValue("Soomla." + prefix + "." + key, out value) && value.Length > 0) {
+				return value;
+			} else {
+				value = PlayerPrefs.GetString("Soomla." + prefix + "." + key);
+				SetConfigValue(prefix, key, value);
+				return value.Length > 0 ? value : null;
+			}
+		}
 	}
 }
