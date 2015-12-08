@@ -26,7 +26,6 @@ SOOMLA modules internally use these features, though we encourage you to use the
 #### From sources:
  - Clone this repository recursively: `git clone --recursive https://github.com/soomla/soomla-unity3d-core.git`
  - Run `./build_all` from project directory
- - Take created binaries from `build` directory and use it!
 
 Contribution
 ---
