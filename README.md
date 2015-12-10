@@ -21,12 +21,11 @@ SOOMLA modules internally use these features, though we encourage you to use the
 
 ####Pre baked unitypackage:
 
-[soomla-unity3d-core 1.2.1](http://library.soom.la/fetch/unity3d-core/1.2.1?cf=github)
+[soomla-unity3d-core 1.2.3](http://library.soom.la/fetch/unity3d-core/1.2.3?cf=github)
 
 #### From sources:
  - Clone this repository recursively: `git clone --recursive https://github.com/soomla/soomla-unity3d-core.git`
  - Run `./build_all` from project directory
- - Take created binaries from `build` directory and use it!
 
 Contribution
 ---
