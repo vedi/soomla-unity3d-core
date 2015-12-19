@@ -1,3 +1,13 @@
+### v1.2.3 [view commit logs](https://github.com/soomla/soomla-unity3d-core/compare/v1.2.2...v1.2.3)
+
+* Changes
+  * Added saving user settings in PlayerPrefs
+
+### v1.2.2 [view commit logs](https://github.com/soomla/soomla-unity3d-core/compare/v1.2.1...v1.2.2)
+
+* Changes
+  * Minor improvements and rearrangements to Editor script
+
 ### v1.2.1 [view commit logs](https://github.com/soomla/soomla-unity3d-core/compare/v1.2.0...v1.2.1)
 
 * Changes
