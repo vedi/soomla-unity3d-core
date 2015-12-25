@@ -32,7 +32,7 @@ namespace Soomla {
 
 #if UNITY_IOS && !UNITY_EDITOR
 		[DllImport ("__Internal")]
-		private static extern void soomlaCore_Init(string secret, [MarshalAs(UnmanagedType.Bool)] bool debug);
+		private static extern void soomlaCore_Init(string secret, [MarshalAs(UnmanagedType.Bool)] bool debug, [MarshalAs(UnmanagedType.I4)] int storageType);
 #endif
 
 		private const string TAG = "SOOMLA CoreEvents";
@@ -66,7 +66,7 @@ namespace Soomla {
 				}
 				AndroidJNI.PopLocalFrame(IntPtr.Zero);
 #elif UNITY_IOS && !UNITY_EDITOR
-				soomlaCore_Init(CoreSettings.SoomlaSecret, CoreSettings.DebugMessages);
+				soomlaCore_Init(CoreSettings.SoomlaSecret, CoreSettings.DebugMessages, CoreSettings.IOSStorageType);
 #elif UNITY_WP8 && !UNITY_EDITOR
 				SoomlaWpCore.SoomlaConfig.logDebug = CoreSettings.DebugMessages;
 				SoomlaWpCore.Soomla.initialize(CoreSettings.SoomlaSecret);

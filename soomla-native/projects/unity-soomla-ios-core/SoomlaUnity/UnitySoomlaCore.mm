@@ -9,12 +9,12 @@
 #import "KeyValueStorage.h"
 
 extern "C" {
-    void soomlaCore_Init(const char* secret, bool debug) {
+    void soomlaCore_Init(const char* secret, bool debug, int databaseType) {
         LogDebug(@"SOOMLA Unity UnitySoomlaCore", @"Initializing SoomlaEventHandler ...");
         
         DEBUG_LOG = debug;
         [UnitySoomlaCoreEventDispatcher initialize];
-        [Soomla initializeWithSecret:[NSString stringWithUTF8String:secret]];
+        [Soomla initializeWithSecret:[NSString stringWithUTF8String:secret] andDatabaseType:(KeyValueDatabaseType)databaseType];
     }
     
     void keyValStorage_GetValue(const char* key, char** retVal) {

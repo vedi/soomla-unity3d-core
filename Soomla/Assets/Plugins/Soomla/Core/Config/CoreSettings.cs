@@ -75,8 +75,16 @@ namespace Soomla
 
 		}
 
-		public void OnIOSGUI(){
+		string[] storageTypeOptions = new string[] { "SQLite (recommended)", "NSUserDefaults (for AppleTV)" };
 
+		public void OnIOSGUI(){
+			EditorGUILayout.LabelField(
+					new GUIContent("KeyValueStorage Type [?]:", "Specifies a type of KeyValueStorage."),
+					GUILayout.Width(150), SoomlaEditorScript.FieldHeight);
+			EditorGUILayout.BeginHorizontal();
+			EditorGUILayout.Space();
+			IOSStorageType = GUILayout.SelectionGrid(IOSStorageType, storageTypeOptions, 1, EditorStyles.toggle);
+			EditorGUILayout.EndHorizontal();
 		}
 
 		public void OnWP8GUI(){
@@ -187,6 +195,22 @@ namespace Soomla
 				if (Convert.ToBoolean(v) != value)
 				{
 					SoomlaEditorScript.SetConfigValue(CoreModulePrefix, "DebugUnityMessages", value.ToString());
+					SoomlaEditorScript.DirtyEditor();
+				}
+			}
+		}
+
+		public static int IOSStorageType
+		{
+			get {
+				string value = SoomlaEditorScript.GetConfigValue(CoreModulePrefix, "IOSStorageType");
+				return value != null ? Convert.ToInt32(value) : 0;
+			}
+			set {
+				string v = SoomlaEditorScript.GetConfigValue(CoreModulePrefix, "IOSStorageType");
+				if (Convert.ToInt32(v) != value)
+				{
+					SoomlaEditorScript.SetConfigValue(CoreModulePrefix, "IOSStorageType", value.ToString());
 					SoomlaEditorScript.DirtyEditor();
 				}
 			}
