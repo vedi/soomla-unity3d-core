@@ -156,10 +156,16 @@ namespace Soomla
 			}
 		}
 
-		[MenuItem("Window/Soomla/Edit Settings")]
+		[MenuItem("Window/Soomla/Open Source")]
 		public static void Edit()
 		{
 			Selection.activeObject = Instance;
+		}
+
+		[MenuItem("Window/Soomla/Open Source", true)]
+		public static bool validateOpenSource()
+		{
+			return mSoomlaSettings.Count > 1;
 		}
 
 		[MenuItem("Window/Soomla/Remove Soomla")]
