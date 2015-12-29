@@ -31,6 +31,7 @@ namespace Soomla
 	/// </summary>
 	public class SoomlaEditorScript : ScriptableObject
 	{
+#if UNITY_EDITOR
 		private static BuildTargetGroup[] supportedPlatforms =
 		{
 			BuildTargetGroup.Android,
@@ -42,6 +43,7 @@ namespace Soomla
 			BuildTargetGroup.WebPlayer,
 			BuildTargetGroup.Standalone
 		};
+#endif
 		public static string AND_PUB_KEY_DEFAULT = "YOUR GOOGLE PLAY PUBLIC KEY";
 		public static string ONLY_ONCE_DEFAULT = "SET ONLY ONCE";
 
@@ -50,7 +52,7 @@ namespace Soomla
 		const string soomSettingsAssetExtension = ".asset";
 
 		private static SoomlaEditorScript instance;
-
+#if UNITY_EDITOR
 		private static void ToggleOpenSourceFlag(bool remove) {
 			foreach (BuildTargetGroup target in supportedPlatforms) {
 				string targetFlag = "SOOMLA_OPEN_SOURCE";
@@ -74,6 +76,7 @@ namespace Soomla
 				}
 			}
 		}
+#endif
 
 		public static SoomlaEditorScript Instance
 		{
