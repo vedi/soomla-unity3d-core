@@ -31,6 +31,19 @@ namespace Soomla
 	/// </summary>
 	public class SoomlaEditorScript : ScriptableObject
 	{
+#if UNITY_EDITOR
+		private static BuildTargetGroup[] supportedPlatforms =
+		{
+			BuildTargetGroup.Android,
+#if UNITY_5
+			BuildTargetGroup.iOS,
+#else
+			BuildTargetGroup.iPhone,
+#endif
+			BuildTargetGroup.WebPlayer,
+			BuildTargetGroup.Standalone
+		};
+#endif
 		public static string AND_PUB_KEY_DEFAULT = "YOUR GOOGLE PLAY PUBLIC KEY";
 		public static string ONLY_ONCE_DEFAULT = "SET ONLY ONCE";
 
@@ -39,6 +52,31 @@ namespace Soomla
 		const string soomSettingsAssetExtension = ".asset";
 
 		private static SoomlaEditorScript instance;
+#if UNITY_EDITOR
+		private static void ToggleOpenSourceFlag(bool remove) {
+			foreach (BuildTargetGroup target in supportedPlatforms) {
+				string targetFlag = "SOOMLA_OPEN_SOURCE";
+				string scriptDefines = PlayerSettings.GetScriptingDefineSymbolsForGroup(target);
+				List<string> flags = new List<string>(scriptDefines.Split(';'));
+
+				if (flags.Contains(targetFlag)) {
+					if (remove) {
+						flags.Remove(targetFlag);
+					}
+				}
+				else {
+					if (!remove) {
+						flags.Add(targetFlag);
+					}
+				}
+
+				string result = string.Join(";", flags.ToArray());
+				if (scriptDefines != result) {
+					PlayerSettings.SetScriptingDefineSymbolsForGroup(target, result);
+				}
+			}
+		}
+#endif
 
 		public static SoomlaEditorScript Instance
 		{
@@ -76,6 +114,7 @@ namespace Soomla
 
 		public static void addSettings(ISoomlaSettings spp) {
 			mSoomlaSettings.Add(spp);
+			ToggleOpenSourceFlag(mSoomlaSettings.Count <= 1);
 		}
 
 		public static void addFileList(string moduleId, string fileListPath, string[] additionalFiles) {
@@ -155,7 +194,8 @@ namespace Soomla
 				EditorGUILayout.Space();
 			}
 		}
-
+#endif
+#if UNITY_EDITOR && SOOMLA_OPEN_SOURCE
 		[MenuItem("Window/Soomla/Edit Settings")]
 		public static void Edit()
 		{
