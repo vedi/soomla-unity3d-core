@@ -237,6 +237,7 @@
 					"${UNITY_HEADERS43}/**",
 					"../../../submodules/soomla-ios-core/SoomlaiOSCore/**",
 					"${UNITY_HEADERS45}/**",
+					"${UNITY_HEADERS53}/**",
 				);
 				LIBRARY_SEARCH_PATHS = ../../../Soomla/Assets/Plugins/iOS;
 				OTHER_LDFLAGS = "-ObjC";
@@ -246,8 +247,10 @@
 				SKIP_INSTALL = YES;
 				UNITY_HEADERS43 = "/Applications/Unity/Unity.app/Contents/PlaybackEngines/iPhonePlayer/iPhone-Trampoline/Classes/";
 				UNITY_HEADERS45 = /Applications/Unity/Unity.app/Contents/PlaybackEngines/iOSSupport/Trampoline/Classes/;
+				UNITY_HEADERS53 = /Applications/Unity/PlaybackEngines/iOSSupport/Trampoline/Classes/;
 				UNITY_LIBS43 = "/Applications/Unity/Unity.app/Contents/PlaybackEngines/iPhonePlayer/iPhone-Trampoline/Libraries/";
 				UNITY_LIBS45 = /Applications/Unity/Unity.app/Contents/PlaybackEngines/iOSSupport/Trampoline/Libraries/;
+				UNITY_LIBS53 = /Applications/Unity/PlaybackEngines/iOSSupport/Trampoline/Libraries/;
 				VALID_ARCHS = "arm64 armv7 armv7s i386 x86_64";
 			};
 			name = Debug;
@@ -266,6 +269,7 @@
 					"${UNITY_HEADERS43}/**",
 					"../../../submodules/soomla-ios-core/SoomlaiOSCore/**",
 					"${UNITY_HEADERS45}/**",
+					"${UNITY_HEADERS53}/**",
 				);
 				LIBRARY_SEARCH_PATHS = ../../../Soomla/Assets/Plugins/iOS;
 				ONLY_ACTIVE_ARCH = NO;
@@ -276,8 +280,10 @@
 				SKIP_INSTALL = YES;
 				UNITY_HEADERS43 = "/Applications/Unity/Unity.app/Contents/PlaybackEngines/iPhonePlayer/iPhone-Trampoline/Classes/";
 				UNITY_HEADERS45 = /Applications/Unity/Unity.app/Contents/PlaybackEngines/iOSSupport/Trampoline/Classes/;
+				UNITY_HEADERS53 = /Applications/Unity/PlaybackEngines/iOSSupport/Trampoline/Classes/;
 				UNITY_LIBS43 = "/Applications/Unity/Unity.app/Contents/PlaybackEngines/iPhonePlayer/iPhone-Trampoline/Libraries/";
 				UNITY_LIBS45 = /Applications/Unity/Unity.app/Contents/PlaybackEngines/iOSSupport/Trampoline/Libraries/;
+				UNITY_LIBS53 = /Applications/Unity/PlaybackEngines/iOSSupport/Trampoline/Libraries/;
 				VALID_ARCHS = "arm64 armv7 armv7s i386 x86_64";
 			};
 			name = Release;
