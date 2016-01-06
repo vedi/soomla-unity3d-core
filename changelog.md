@@ -1,3 +1,11 @@
+### v1.2.4 [view commit logs](https://github.com/soomla/soomla-unity3d-core/compare/v1.2.3...v1.2.4)
+
+* Changes
+  * Disabled Soomla menu if no other open source module is present
+
+* Fixes
+  * Fixed build in Unity 5.3
+
 ### v1.2.3 [view commit logs](https://github.com/soomla/soomla-unity3d-core/compare/v1.2.2...v1.2.3)
 
 * Changes
