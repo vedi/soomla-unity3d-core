@@ -54,6 +54,9 @@ namespace Soomla
 		private static SoomlaEditorScript instance;
 #if UNITY_EDITOR
 		private static void ToggleOpenSourceFlag(bool remove) {
+			if (remove) {
+				return;
+			}
 			foreach (BuildTargetGroup target in supportedPlatforms) {
 				string targetFlag = "SOOMLA_OPEN_SOURCE";
 				string scriptDefines = PlayerSettings.GetScriptingDefineSymbolsForGroup(target);
