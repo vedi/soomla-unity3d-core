@@ -1,3 +1,8 @@
+### v1.2.5 [view commit logs](https://github.com/soomla/soomla-unity3d-core/compare/v1.2.4...v1.2.5)
+
+* Fixes
+  * Hotfix - editor goes into infinite loop
+
 ### v1.2.4 [view commit logs](https://github.com/soomla/soomla-unity3d-core/compare/v1.2.3...v1.2.4)
 
 * Changes
