@@ -31,6 +31,8 @@ soomla-native/projects/unity-soomla-android-core/out
 
 create_unity.log
 
+*.meta
+
 # Xcode
 build/
 *.pbxuser
