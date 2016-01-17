@@ -159,6 +159,7 @@ namespace Soomla
 				{
 					soomlaSecret = value;
 					SoomlaEditorScript.SetConfigValue(CoreModulePrefix, "SoomlaSecret", value.ToString());
+					SoomlaEditorScript.DirtyEditor();
 				}
 			}
 		}
@@ -180,9 +181,11 @@ namespace Soomla
 				{
 					debugMessages = value.ToString();
 					SoomlaEditorScript.SetConfigValue(CoreModulePrefix, "DebugMessages", value.ToString());
+					SoomlaEditorScript.DirtyEditor();
 				}
 			}
 		}
+
 		private static string debugUnityMessages;
 		public static bool DebugUnityMessages
 		{
@@ -201,6 +204,7 @@ namespace Soomla
 				{
 					debugUnityMessages = value.ToString();
 					SoomlaEditorScript.SetConfigValue(CoreModulePrefix, "DebugUnityMessages", value.ToString());
+					SoomlaEditorScript.DirtyEditor();
 				}
 			}
 		}
